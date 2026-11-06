@@ -31,12 +31,14 @@ final class ExtensionManifestTest extends TestCase
         self::assertSame(['8.1', '8.2', '8.3', '8.4', '8.5'], $phpVersions);
     }
 
-    public function testAuditUpgradeSchemasDelegateToCurrentSchemas(): void
+    public function testAuditUpgradeSchemasAreFrozenSnapshots(): void
     {
         foreach (['OidcSsoAuditEvent', 'OidcSsoAuditHead'] as $entity) {
             $path = __DIR__ . "/../../upgrade/schema/1002_{$entity}.entityType.php";
             self::assertFileExists($path);
-            self::assertStringContainsString("/schema/{$entity}.entityType.php", (string) file_get_contents($path));
+            $schema = (string) file_get_contents($path);
+            self::assertStringContainsString("'name' => '{$entity}'", $schema);
+            self::assertStringNotContainsString('return require', $schema);
         }
     }
 
