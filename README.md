@@ -84,9 +84,12 @@ supported by those releases. The repository will use Composer for development
 tooling and reproducible third-party dependencies.
 
 ```bash
-composer install
-composer test
+docker compose run --rm test
 ```
+
+The container installs development dependencies and runs Composer validation,
+the coding standard and the unit test suite. The same checks run in Gitea CI
+for PHP 8.1 through 8.4.
 
 Never commit client secrets, private keys, tokens, real user attributes,
 deployment hostnames or organization-specific role mappings. Examples and
