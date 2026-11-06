@@ -356,6 +356,8 @@ sh scripts/build-release.sh
 The archive contains a single `oidc_sso/` directory. Directories use mode
 `0755`, ordinary files use mode `0644`, and continuous integration verifies the
 archive root permissions and the presence of the CiviCRM entrypoint.
+Development-only CI configuration, local Docker configuration, coding-standard
+files and unit tests are excluded through committed `export-ignore` rules.
 
 The host CiviCRM installation must configure a real `CIVICRM_CRED_KEYS` key.
 The extension refuses to persist OIDC transaction secrets when CiviCRM falls
