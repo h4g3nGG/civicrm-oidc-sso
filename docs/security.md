@@ -32,6 +32,9 @@ unverified account-link requests and open redirects.
 Login state is bound to the initiating browser session and removed atomically
 before callback validation continues. Expired, wrongly bound and failed
 transactions remain consumed, preventing replay after any callback attempt.
+Nonce, PKCE verifier, return path and browser binding are encrypted at rest
+with CiviCRM credential encryption. The extension refuses transaction writes
+when the host falls back to plain-text credential storage.
 
 ## Authorization
 

@@ -58,14 +58,17 @@ The current development version includes tested building blocks for:
   authentication methods, with strict token-response validation;
 - managing browser-bound login transactions through an atomic persistence
   contract with HMAC-indexed state, expiry cleanup and one-time consumption;
+- installing extension-owned transaction and external-identity tables through
+  CiviCRM entity schemas and its AutomaticUpgrader;
 - verifying compact JWS ID-token signatures against an algorithm allow list;
 - selecting signing keys by `kid` and refreshing JWKS once after key rotation;
 - validating issuer, audience, authorized party, nonce and temporal claims; and
 - reconciling explicitly configured group-to-role mappings.
 
-Concrete database and HTTP adapters, CiviCRM user provisioning, session
-establishment and the administration UI are not yet implemented. The
-extension is therefore not installable for production use.
+The CiviCRM transaction repository is implemented, but its integration test,
+the HTTP adapter, user provisioning, session establishment and the complete
+administration UI are not yet finished. The extension is therefore not ready
+for production use.
 
 ## Configuration model (planned)
 
@@ -109,6 +112,21 @@ docker compose run --rm test
 The container installs development dependencies and runs Composer validation,
 the coding standard and the unit test suite. The same checks run in Gitea CI
 for PHP 8.1 through 8.4.
+
+The extension uses the current civix extension format, the documented
+`AutomaticUpgrader`, `entity-types-php` and `setting-php` mixins, and CiviCRM's
+credential cryptography service. Runtime dependencies must be installed before
+enabling the extension:
+
+```bash
+composer install --no-dev --classmap-authoritative
+```
+
+The host CiviCRM installation must configure a real `CIVICRM_CRED_KEYS` key.
+The extension refuses to persist OIDC transaction secrets when CiviCRM falls
+back to plain-text credential storage. The OIDC client secret and transaction
+HMAC key will be supplied through protected deployment configuration rather
+than ordinary database settings.
 
 Never commit client secrets, private keys, tokens, real user attributes,
 deployment hostnames or organization-specific role mappings. Examples and

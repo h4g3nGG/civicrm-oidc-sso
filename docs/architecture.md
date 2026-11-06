@@ -27,6 +27,12 @@ The repository's consume operation is atomic, so a transaction can be returned
 to at most one callback even when requests race. Concrete database access is
 isolated behind the repository contract.
 
+Extension-owned tables are declared as CiviCRM entity schemas and managed by
+the extension AutomaticUpgrader. Short-lived transaction payloads are
+encrypted with CiviCRM's `crypto.token` service and a configured credential
+key. Stable identity links use issuer and subject hashes for indexed lookup and
+reference the corresponding CiviCRM contact and user-framework match.
+
 ## Provisioning model
 
 Provisioning is just-in-time. A valid OIDC login creates or updates the current
