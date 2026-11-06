@@ -46,6 +46,12 @@ user. OIDC is not used to enumerate inactive or never-seen users. Deployments
 which require a complete directory mirror need a separate provisioning
 protocol such as SCIM or an identity-provider API.
 
+Pre-existing local accounts are migrated by adding an administrator-reviewed
+external-identity link to the existing user, `UFMatch` and contact. Email is
+never sufficient proof for an automatic link. This preserves the complete
+contact profile and every contribution, activity, relationship and other record
+already attached to that contact.
+
 ## Compatibility boundary
 
 Production code should use documented CiviCRM APIs, hooks, routes, settings,

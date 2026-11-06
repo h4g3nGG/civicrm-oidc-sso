@@ -67,12 +67,19 @@ The current development version includes tested building blocks for:
 - validating issuer, audience, authorized party, nonce and temporal claims; and
 - reconciling explicitly configured group-to-role mappings; and
 - exposing disabled-by-default CiviCRM login and callback routes which create,
-  consume and cryptographically validate a complete OIDC browser transaction.
+  consume and cryptographically validate a complete OIDC browser transaction;
+  and
+- creating new Standalone contacts/users through APIv4 or updating profiles
+  already linked by the stable `(issuer, subject)` identity tuple.
 
 The transaction repository, HTTP adapter and browser protocol flow have
 integration coverage, but user provisioning, session establishment and the
 complete administration UI are not yet finished. The extension is therefore
 not ready for production use and must remain disabled.
+
+Existing local accounts are never claimed automatically by matching an email
+address. They must be linked explicitly before cutover; see
+[Migrating existing users](docs/migration.md).
 
 ## Configuration model (planned)
 

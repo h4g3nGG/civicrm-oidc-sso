@@ -16,6 +16,8 @@ use Civi\OidcSso\Protocol\RotatingIdTokenVerifier;
 use Civi\OidcSso\Protocol\StoredAuthorizationTransactionCodec;
 use Civi\OidcSso\Protocol\TokenEndpointClient;
 use Civi\OidcSso\Protocol\TokenResponseValidator;
+use Civi\OidcSso\Identity\ClaimsProfileExtractor;
+use Civi\OidcSso\Identity\IdentityProvisioner;
 use Civi\OidcSso\Web\AuthorizationCallbackService;
 use Civi\OidcSso\Web\LoginStartService;
 use GuzzleHttp\Client;
@@ -66,6 +68,17 @@ final class CiviServiceFactory
                 new RemoteJwksSource(new JsonDocumentFetcher($transport), $metadata->jwksUri),
             ),
             new IdTokenClaimsValidator($configuration['issuer'], $configuration['client_id']),
+        );
+    }
+
+    public static function identityProvisioner(): IdentityProvisioner
+    {
+        $api = new CiviApi4Client();
+        return new IdentityProvisioner(
+            new CiviExternalIdentityRepository(),
+            new CiviStandaloneAccountGateway($api),
+            new ClaimsProfileExtractor(),
+            new CiviProvisioningTransaction(),
         );
     }
 

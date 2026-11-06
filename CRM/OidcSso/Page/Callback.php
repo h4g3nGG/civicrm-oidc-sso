@@ -13,13 +13,14 @@ final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
         try {
             $state = $this->requiredQueryString('state');
             $binding = $this->requiredCookie(self::BINDING_COOKIE);
-            CiviServiceFactory::callback()->complete(
+            $authenticated = CiviServiceFactory::callback()->complete(
                 $state,
                 $this->queryString('code'),
                 $this->queryString('error'),
                 $binding,
                 time(),
             );
+            CiviServiceFactory::identityProvisioner()->provision($authenticated->claims);
         } catch (Throwable $exception) {
             Civi::log()->warning('OpenID Connect callback was rejected: {message}', [
                 'message' => $exception->getMessage(),
