@@ -177,6 +177,12 @@ web server or identity-provider application launcher to send `/` to
 protected break-glass administrator. Do not redirect the local login route
 back to OIDC.
 
+`/civicrm/logout` ends the local CiviCRM session. It does not terminate the
+OpenID Provider session, so opening the application again can immediately
+establish a fresh CiviCRM session through SSO. Deployments which require global
+single logout must design and test that separately; this extension does not
+currently implement provider logout.
+
 ## OpenID Provider configuration: Authentik example
 
 The extension is provider-neutral; Authentik is one tested example. Menu names
@@ -204,9 +210,17 @@ claim to known groups:
 
 ```python
 allowed = {"crm.staff", "crm.admins"}
-groups = sorted({group.name for group in request.user.all_groups()} & allowed)
+direct_groups = {group.name for group in request.user.ak_groups.all()}
+groups = sorted(direct_groups & allowed)
 return {"groups": groups}
 ```
+
+The example intentionally reads direct group memberships. In Authentik,
+`request.user.all_groups()` includes inherited groups and may return every
+group for a superuser; using it without an explicit hierarchy and superuser
+policy can therefore grant unintended application roles. If nested groups are
+required, resolve only a reviewed subtree and define separately how Authentik
+superusers should map to CiviCRM.
 
 Use a separate `email` scope mapping which returns `email_verified: True` only
 when the deployment's identity lifecycle actually guarantees verification.
