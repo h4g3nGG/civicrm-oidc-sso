@@ -42,6 +42,14 @@ final class ExtensionManifestTest extends TestCase
         }
     }
 
+    public function testAuditSchemaUpgradeIsRegistered(): void
+    {
+        $upgrader = (string) file_get_contents(__DIR__ . '/../../CRM/OidcSso/Upgrader.php');
+        self::assertStringContainsString('function upgrade_1002()', $upgrader);
+        self::assertStringContainsString('1002_OidcSsoAuditHead.entityType.php', $upgrader);
+        self::assertStringContainsString('1002_OidcSsoAuditEvent.entityType.php', $upgrader);
+    }
+
     public function testManagedRoleUpgradeSchemaMatchesCurrentSchema(): void
     {
         $upgrade = file_get_contents(__DIR__ . '/../../upgrade/schema/1001_OidcSsoManagedRole.entityType.php');

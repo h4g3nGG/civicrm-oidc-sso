@@ -16,6 +16,18 @@ final class CRM_OidcSso_Upgrader extends \CRM_Extension_Upgrader_Base {
       ->createEntityTable('upgrade/schema/1001_OidcSsoManagedRole.entityType.php');
   }
 
+  /**
+   * Add the serialized HMAC audit event chain and its chain head.
+   */
+  public function upgrade_1002(): bool {
+    $this->ctx->log->info('Creating OIDC audit tables.');
+    $helper = $GLOBALS['CiviMixSchema']->getHelper('oidc_sso');
+    if (!$helper->createEntityTable('upgrade/schema/1002_OidcSsoAuditHead.entityType.php')) {
+      return FALSE;
+    }
+    return $helper->createEntityTable('upgrade/schema/1002_OidcSsoAuditEvent.entityType.php');
+  }
+
   // By convention, functions that look like "function upgrade_NNNN()" are
   // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
 
