@@ -27,3 +27,23 @@ jobs:
       - run: composer install --no-interaction --prefer-dist
       - run: composer check
 
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prefer reachable IPv4 package mirrors
+        run: echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4 >/dev/null
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+          github-token: ''
+      - name: Build release archive
+        run: sh scripts/build-release.sh /tmp/civicrm-oidc-sso.tar.gz
+      - name: Verify release permissions and entrypoint
+        run: |
+          mode=$(tar -tvzf /tmp/civicrm-oidc-sso.tar.gz oidc_sso/ | awk 'NR == 1 {print $1}')
+          test "$mode" = "drwxr-xr-x"
+          tar -tzf /tmp/civicrm-oidc-sso.tar.gz | grep -qx 'oidc_sso/oidc_sso.php'
+

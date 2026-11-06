@@ -136,6 +136,17 @@ dependencies must be installed before enabling the extension:
 composer install --no-dev --classmap-authoritative
 ```
 
+Build an installable release archive from the committed source with normalized
+web-server-readable permissions:
+
+```bash
+sh scripts/build-release.sh
+```
+
+The archive contains a single `oidc_sso/` directory. Directories use mode
+`0755`, ordinary files use mode `0644`, and continuous integration verifies the
+archive root permissions and the presence of the CiviCRM entrypoint.
+
 The host CiviCRM installation must configure a real `CIVICRM_CRED_KEYS` key.
 The extension refuses to persist OIDC transaction secrets when CiviCRM falls
 back to plain-text credential storage. The OIDC client secret and transaction
