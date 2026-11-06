@@ -14,7 +14,7 @@
     <ver>6.19</ver>
   </compatibility>
   <classloader>
-    <psr0 prefix="CRM_" path=""/>
+    <psr0 prefix="CRM_" path="."/>
     <psr4 prefix="Civi\\OidcSso\\" path="Civi/OidcSso"/>
     <psr4 prefix="Civi\" path="Civi"/>
   </classloader>
