@@ -64,18 +64,20 @@ The current development version includes tested building blocks for:
   CiviCRM entity schemas and its AutomaticUpgrader;
 - verifying compact JWS ID-token signatures against an algorithm allow list;
 - selecting signing keys by `kid` and refreshing JWKS once after key rotation;
-- validating issuer, audience, authorized party, nonce and temporal claims; and
-- reconciling explicitly configured group-to-role mappings; and
+- validating issuer, audience, authorized party, nonce and temporal claims;
+- reconciling explicitly configured group-to-role mappings while tracking and
+  removing only assignments which the extension itself added;
 - exposing disabled-by-default CiviCRM login and callback routes which create,
   consume and cryptographically validate a complete OIDC browser transaction;
-  and
 - creating new Standalone contacts/users through APIv4 or updating profiles
-  already linked by the stable `(issuer, subject)` identity tuple.
+  already linked by the stable `(issuer, subject)` identity tuple; and
+- creating a 60-second CiviCRM-signed JWT for the documented AuthX auto-session
+  handoff after authentication and authorization succeed.
 
-The transaction repository, HTTP adapter and browser protocol flow have
-integration coverage, but user provisioning, session establishment and the
-complete administration UI are not yet finished. The extension is therefore
-not ready for production use and must remain disabled.
+The protocol flow, user provisioning, role reconciliation and session handoff
+have automated coverage, but the complete administration UI, auditable
+migration importer and end-to-end browser tests are not yet finished. The
+extension is therefore not ready for production use and must remain disabled.
 
 Existing local accounts are never claimed automatically by matching an email
 address. They must be linked explicitly before cutover; see

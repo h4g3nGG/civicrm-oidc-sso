@@ -95,4 +95,17 @@ return [
         'validate_callback' => 'Civi\\OidcSso\\Civi\\SettingsValidator::groupClaim',
         'settings_pages' => ['oidc_sso' => ['weight' => 60]],
     ],
+    'oidc_sso_role_mapping' => [
+        'name' => 'oidc_sso_role_mapping',
+        'title' => E::ts('OIDC group-to-role mapping'),
+        'description' => E::ts('JSON object mapping exact group claim strings to Standalone role ID lists.'),
+        'type' => 'String',
+        'default' => '{}',
+        'html_type' => 'textarea',
+        'is_domain' => 1,
+        'is_contact' => 0,
+        'is_env_loadable' => true,
+        'validate_callback' => 'Civi\\OidcSso\\Civi\\SettingsValidator::roleMapping',
+        'settings_pages' => ['oidc_sso' => ['weight' => 70]],
+    ],
 ];

@@ -38,4 +38,13 @@ final class SettingsValidatorTest extends TestCase
         self::assertTrue(SettingsValidator::groupClaim('realm_access.groups'));
         self::assertFalse(SettingsValidator::groupClaim('groups[0]'));
     }
+
+    public function testRoleMappingRequiresPositiveIntegerRoleIds(): void
+    {
+        self::assertTrue(SettingsValidator::roleMapping('{"group.one":[2,5]}'));
+        self::assertTrue(SettingsValidator::roleMapping('{}'));
+        self::assertFalse(SettingsValidator::roleMapping('{"group.one":["admin"]}'));
+        self::assertFalse(SettingsValidator::roleMapping('[]'));
+        self::assertFalse(SettingsValidator::roleMapping('invalid'));
+    }
 }

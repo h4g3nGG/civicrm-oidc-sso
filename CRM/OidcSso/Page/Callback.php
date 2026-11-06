@@ -20,17 +20,21 @@ final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
                 $binding,
                 time(),
             );
-            CiviServiceFactory::identityProvisioner()->provision($authenticated->claims);
+            $identity = CiviServiceFactory::identityProvisioner()->provision($authenticated->claims);
+            CiviServiceFactory::roleSynchronizer()->synchronize($identity->userId, $authenticated->claims);
+            $redirect = CiviServiceFactory::sessionRedirectBuilder()->build(
+                $identity->contactId,
+                $authenticated->returnPath,
+                time(),
+            );
         } catch (Throwable $exception) {
             Civi::log()->warning('OpenID Connect callback was rejected: {message}', [
                 'message' => $exception->getMessage(),
             ]);
             CRM_Core_Error::statusBounce(ts('OpenID Connect login failed. Please start the login again.'));
+            return;
         }
-
-        // The route is installed ahead of provisioning and AuthX session
-        // bridging, but cannot be reached while the extension is disabled.
-        CRM_Core_Error::statusBounce(ts('OpenID Connect account provisioning is not enabled yet.'));
+        CRM_Utils_System::redirect($redirect);
     }
 
     private function requiredQueryString(string $name): string

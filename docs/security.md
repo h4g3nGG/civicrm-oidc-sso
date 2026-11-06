@@ -41,6 +41,15 @@ when the host falls back to plain-text credential storage.
 Authentication does not imply authorization. At least one explicitly mapped
 group must be present unless an administrator deliberately configures a
 different policy. Unknown groups are ignored and never create local roles.
+The extension records only roles which it actually added. On later logins it
+may remove those managed assignments, but it never removes a role which was
+already present manually. A login with no explicitly mapped role is rejected
+after any obsolete extension-managed roles have been removed.
+
+After authorization, CiviCRM's own JWT service creates a 60-second AuthX token
+with a random `jti`. The documented AuthX auto-session flow consumes it to
+establish the browser session; the extension does not manipulate session
+cookies or CiviCRM session internals.
 
 ## Local recovery
 

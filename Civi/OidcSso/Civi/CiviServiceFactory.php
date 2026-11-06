@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Civi\OidcSso\Civi;
 
+use Civi\OidcSso\Authorization\ClaimGroupExtractor;
+use Civi\OidcSso\Authorization\ClaimRoleSynchronizer;
+use Civi\OidcSso\Authorization\RoleMapper;
+use Civi\OidcSso\Authorization\RoleReconciler;
 use Civi\OidcSso\Protocol\AuthorizationTransactionFactory;
 use Civi\OidcSso\Protocol\AuthorizationTransactionManager;
 use Civi\OidcSso\Protocol\DiscoveryUrlBuilder;
@@ -18,6 +22,7 @@ use Civi\OidcSso\Protocol\TokenEndpointClient;
 use Civi\OidcSso\Protocol\TokenResponseValidator;
 use Civi\OidcSso\Identity\ClaimsProfileExtractor;
 use Civi\OidcSso\Identity\IdentityProvisioner;
+use Civi\OidcSso\Session\AuthxSessionRedirectBuilder;
 use Civi\OidcSso\Web\AuthorizationCallbackService;
 use Civi\OidcSso\Web\LoginStartService;
 use GuzzleHttp\Client;
@@ -80,6 +85,28 @@ final class CiviServiceFactory
             new ClaimsProfileExtractor(),
             new CiviProvisioningTransaction(),
         );
+    }
+
+    public static function roleSynchronizer(): ClaimRoleSynchronizer
+    {
+        $claim = (string) \Civi::settings()->get('oidc_sso_group_claim');
+        $encodedMapping = (string) \Civi::settings()->get('oidc_sso_role_mapping');
+        /** @var array<string, list<int>> $mapping */
+        $mapping = json_decode($encodedMapping, true, 16, JSON_THROW_ON_ERROR);
+        $api = new CiviApi4Client();
+        return new ClaimRoleSynchronizer(
+            new ClaimGroupExtractor($claim),
+            new RoleMapper($mapping),
+            new RoleReconciler(
+                new CiviStandaloneRoleGateway($api),
+                new CiviManagedRoleRepository(),
+            ),
+        );
+    }
+
+    public static function sessionRedirectBuilder(): AuthxSessionRedirectBuilder
+    {
+        return new AuthxSessionRedirectBuilder(new CiviJwtEncoder());
     }
 
     /** @return array{RemoteProviderMetadataSource, AuthorizationTransactionManager, GuzzleHttpTransport} */

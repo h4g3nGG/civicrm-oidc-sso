@@ -36,4 +36,31 @@ final class SettingsValidator
     {
         return is_string($value) && preg_match('/^[A-Za-z_][A-Za-z0-9_.:-]{0,127}$/D', $value) === 1;
     }
+
+    public static function roleMapping(mixed $value): bool
+    {
+        if (!is_string($value)) {
+            return false;
+        }
+        try {
+            $decoded = json_decode($value, false, 16, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return false;
+        }
+        if (!$decoded instanceof \stdClass) {
+            return false;
+        }
+        $mapping = get_object_vars($decoded);
+        foreach ($mapping as $group => $roles) {
+            if (!is_string($group) || $group === '' || strlen($group) > 255 || !is_array($roles)) {
+                return false;
+            }
+            foreach ($roles as $roleId) {
+                if (!is_int($roleId) || $roleId < 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
