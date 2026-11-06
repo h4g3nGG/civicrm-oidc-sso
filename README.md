@@ -56,15 +56,16 @@ The current development version includes tested building blocks for:
 - creating authorization requests with one-time state, nonce and PKCE;
 - exchanging authorization codes with PKCE and supported OAuth client
   authentication methods, with strict token-response validation;
+- managing browser-bound login transactions through an atomic persistence
+  contract with HMAC-indexed state, expiry cleanup and one-time consumption;
 - verifying compact JWS ID-token signatures against an algorithm allow list;
 - selecting signing keys by `kid` and refreshing JWKS once after key rotation;
 - validating issuer, audience, authorized party, nonce and temporal claims; and
 - reconciling explicitly configured group-to-role mappings.
 
-Persistent browser transaction storage, concrete HTTP and CiviCRM adapters,
-user provisioning, session establishment and the administration UI are not
-yet implemented. The extension is therefore not installable for production
-use.
+Concrete database and HTTP adapters, CiviCRM user provisioning, session
+establishment and the administration UI are not yet implemented. The
+extension is therefore not installable for production use.
 
 ## Configuration model (planned)
 

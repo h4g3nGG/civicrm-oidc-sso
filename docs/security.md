@@ -29,6 +29,10 @@ The implementation must reject unsigned tokens, algorithm confusion, unknown
 critical headers, missing mandatory claims, duplicate external identity links,
 unverified account-link requests and open redirects.
 
+Login state is bound to the initiating browser session and removed atomically
+before callback validation continues. Expired, wrongly bound and failed
+transactions remain consumed, preventing replay after any callback attempt.
+
 ## Authorization
 
 Authentication does not imply authorization. At least one explicitly mapped
