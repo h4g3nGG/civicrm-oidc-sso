@@ -32,8 +32,7 @@ final class RoleMapperTest extends TestCase
 
         self::assertSame(
             ['staff'],
-            $mapper->rolesForGroups([NULL, 123, ['nested'], 'app.example.staff'])
+            $mapper->rolesForGroups([null, 123, ['nested'], 'app.example.staff'])
         );
     }
 }
-

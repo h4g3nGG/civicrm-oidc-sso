@@ -35,4 +35,3 @@ final class RoleMapper
         return array_values($roles);
     }
 }
-
