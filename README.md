@@ -53,6 +53,8 @@ See [Architecture](docs/architecture.md) and [Security model](docs/security.md).
 The current development version includes tested building blocks for:
 
 - validating provider discovery metadata and HTTPS endpoints;
+- retrieving discovery documents, JWKS and token responses through a bounded,
+  TLS-verifying Guzzle adapter which rejects redirects and non-HTTPS URLs;
 - creating authorization requests with one-time state, nonce and PKCE;
 - exchanging authorization codes with PKCE and supported OAuth client
   authentication methods, with strict token-response validation;
@@ -65,10 +67,9 @@ The current development version includes tested building blocks for:
 - validating issuer, audience, authorized party, nonce and temporal claims; and
 - reconciling explicitly configured group-to-role mappings.
 
-The CiviCRM transaction repository is implemented, but its integration test,
-the HTTP adapter, user provisioning, session establishment and the complete
-administration UI are not yet finished. The extension is therefore not ready
-for production use.
+The transaction repository and HTTP adapter have integration coverage, but
+user provisioning, session establishment and the complete administration UI
+are not yet finished. The extension is therefore not ready for production use.
 
 ## Configuration model (planned)
 
@@ -115,8 +116,9 @@ for PHP 8.1 through 8.4.
 
 The extension uses the current civix extension format, the documented
 `AutomaticUpgrader`, `entity-types-php` and `setting-php` mixins, and CiviCRM's
-credential cryptography service. Runtime dependencies must be installed before
-enabling the extension:
+credential cryptography service. Remote OpenID Connect endpoints are accessed
+with Guzzle, following CiviCRM's documented OAuth integration approach. Runtime
+dependencies must be installed before enabling the extension:
 
 ```bash
 composer install --no-dev --classmap-authoritative
