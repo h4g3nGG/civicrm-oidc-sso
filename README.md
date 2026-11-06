@@ -115,9 +115,8 @@ separate test system before considering a production rollout.
    pending database upgrades and clear CiviCRM caches. With `cv` this is:
 
    ```bash
-   cv ext:refresh
    cv ext:enable oidc_sso
-   cv upgrade:db -n
+   cv updb -n
    cv flush
    ```
 
