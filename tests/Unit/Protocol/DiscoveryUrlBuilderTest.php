@@ -26,6 +26,14 @@ final class DiscoveryUrlBuilderTest extends TestCase
         );
     }
 
+    public function testOffersProviderSuffixFallbackForPathIssuer(): void
+    {
+        self::assertSame([
+            'https://id.example.org/.well-known/openid-configuration/application/o/civicrm',
+            'https://id.example.org/application/o/civicrm/.well-known/openid-configuration',
+        ], (new DiscoveryUrlBuilder())->candidates('https://id.example.org/application/o/civicrm/'));
+    }
+
     public function testRejectsIssuerQuery(): void
     {
         $this->expectException(InvalidArgumentException::class);

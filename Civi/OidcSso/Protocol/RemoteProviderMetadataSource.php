@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Civi\OidcSso\Protocol;
 
+use Civi\OidcSso\Exception\OidcValidationException;
+
 final class RemoteProviderMetadataSource implements ProviderMetadataSource
 {
     public function __construct(
@@ -14,8 +16,15 @@ final class RemoteProviderMetadataSource implements ProviderMetadataSource
 
     public function fetch(string $issuer): ProviderMetadata
     {
-        return (new DiscoveryDocumentValidator($issuer))->validate(
-            $this->fetcher->fetch($this->urlBuilder->build($issuer)),
-        );
+        $validator = new DiscoveryDocumentValidator($issuer);
+        $lastException = null;
+        foreach ($this->urlBuilder->candidates($issuer) as $url) {
+            try {
+                return $validator->validate($this->fetcher->fetch($url));
+            } catch (OidcValidationException $exception) {
+                $lastException = $exception;
+            }
+        }
+        throw $lastException ?? new OidcValidationException('OpenID Connect discovery failed.');
     }
 }

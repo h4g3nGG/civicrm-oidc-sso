@@ -10,6 +10,12 @@ final class DiscoveryUrlBuilder
 {
     public function build(string $issuer): string
     {
+        return $this->candidates($issuer)[0];
+    }
+
+    /** @return non-empty-list<string> */
+    public function candidates(string $issuer): array
+    {
         $parts = parse_url($issuer);
         if (
             $parts === false
@@ -27,6 +33,10 @@ final class DiscoveryUrlBuilder
             $authority .= ':' . $parts['port'];
         }
         $issuerPath = rtrim($parts['path'] ?? '', '/');
-        return $authority . '/.well-known/openid-configuration' . $issuerPath;
+        $standard = $authority . '/.well-known/openid-configuration' . $issuerPath;
+        if ($issuerPath === '') {
+            return [$standard];
+        }
+        return [$standard, $authority . $issuerPath . '/.well-known/openid-configuration'];
     }
 }

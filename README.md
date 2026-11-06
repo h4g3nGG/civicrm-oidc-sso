@@ -20,6 +20,8 @@ claims to existing CiviCRM roles without modifying CiviCRM core.
   email address or mutable username.
 - Allow-list-based mapping of OIDC groups to pre-existing CiviCRM roles.
 - Removal of extension-managed roles when claims change.
+- Standards-based discovery with the provider-suffix fallback used by
+  Authentik installations whose issuer contains a path.
 - A separately controlled local break-glass login.
 - No core patches and no changes to the identity-provider software.
 - Auditable configuration, login and role-mapping events.
