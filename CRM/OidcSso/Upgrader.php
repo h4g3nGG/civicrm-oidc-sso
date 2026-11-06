@@ -7,6 +7,15 @@ use CRM_OidcSso_ExtensionUtil as E;
  */
 final class CRM_OidcSso_Upgrader extends \CRM_Extension_Upgrader_Base {
 
+  /**
+   * Add ownership records for roles assigned by OIDC reconciliation.
+   */
+  public function upgrade_1001(): bool {
+    $this->ctx->log->info('Creating OIDC managed-role table.');
+    return $GLOBALS['CiviMixSchema']->getHelper('oidc_sso')
+      ->createEntityTable('upgrade/schema/1001_OidcSsoManagedRole.entityType.php');
+  }
+
   // By convention, functions that look like "function upgrade_NNNN()" are
   // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
 
