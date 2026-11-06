@@ -6,6 +6,6 @@ namespace Civi\OidcSso\Exception;
 
 use RuntimeException;
 
-final class OidcValidationException extends RuntimeException
+class OidcValidationException extends RuntimeException
 {
 }

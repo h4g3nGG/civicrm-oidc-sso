@@ -48,6 +48,21 @@ claims to existing CiviCRM roles without modifying CiviCRM core.
 
 See [Architecture](docs/architecture.md) and [Security model](docs/security.md).
 
+## Implemented security foundation
+
+The current development version includes tested building blocks for:
+
+- validating provider discovery metadata and HTTPS endpoints;
+- creating authorization requests with one-time state, nonce and PKCE;
+- verifying compact JWS ID-token signatures against an algorithm allow list;
+- selecting signing keys by `kid` and refreshing JWKS once after key rotation;
+- validating issuer, audience, authorized party, nonce and temporal claims; and
+- reconciling explicitly configured group-to-role mappings.
+
+The token endpoint exchange, persistent browser transaction storage, CiviCRM
+user provisioning, session establishment and administration UI are not yet
+implemented. The extension is therefore not installable for production use.
+
 ## Configuration model (planned)
 
 Configuration will be managed through CiviCRM settings and an administration
