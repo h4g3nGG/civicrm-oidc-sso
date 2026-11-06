@@ -355,6 +355,12 @@ The container installs development dependencies and runs Composer validation,
 the coding standard and the unit test suite. The same checks run in Gitea CI
 for PHP 8.1 through 8.5.
 
+CI jobs which need a real CiviCRM instance must keep it runner-internal or bind
+it only to loopback. Any test instance reachable from another machine requires
+identity-provider protection at the reverse proxy, a CiviCRM login/session and
+disabled self-registration. Development and test status are never grounds for
+anonymous access. See [Security policy](SECURITY.md).
+
 The extension uses the current civix extension format, the documented
 `AutomaticUpgrader`, `entity-types-php` and `setting-php` mixins, and CiviCRM's
 credential cryptography service. Remote OpenID Connect endpoints are accessed
