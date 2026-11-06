@@ -8,6 +8,13 @@ claims to existing CiviCRM roles without modifying CiviCRM core.
 > **Development status:** design and implementation in progress. Do not use in
 > production yet.
 
+## Origin and support
+
+This extension was originally developed for the hospice in Groß-Gerau,
+Germany. If you find the project useful and would like to say thank you, a
+[donation to the hospice via PayPal](https://www.paypal.com/donate/?hosted_button_id=NHAECADL3F3E8)
+is warmly appreciated.
+
 ## Goals
 
 - Authorization Code Flow with PKCE.
