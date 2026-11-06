@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<extension key="oidc_sso" type="module">
+  <file>oidc_sso</file>
+  <name>OpenID Connect SSO</name>
+  <description>Provider-neutral OpenID Connect single sign-on and role mapping for CiviCRM.</description>
+  <license>AGPL-3.0-or-later</license>
+  <maintainer>
+    <author>Contributors</author>
+  </maintainer>
+  <releaseDate>2026-11-06</releaseDate>
+  <version>0.1.0-dev</version>
+  <develStage>alpha</develStage>
+  <compatibility>
+    <ver>6.19</ver>
+  </compatibility>
+  <classloader>
+    <psr4 prefix="Civi\\OidcSso\\" path="Civi/OidcSso"/>
+  </classloader>
+</extension>
+
