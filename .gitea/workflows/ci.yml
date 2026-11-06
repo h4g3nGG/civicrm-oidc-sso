@@ -18,6 +18,9 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
           tools: composer:v2
+          # A Gitea job token is not a GitHub API token. Passing it to
+          # setup-php can stall or fail GitHub API probes.
+          github-token: ''
       - run: composer validate --strict
       - run: composer install --no-interaction --prefer-dist
       - run: composer check
