@@ -260,11 +260,53 @@ user merely to add SSO.
    only after every account has been verified and a recovery procedure has
    been exercised.
 
-The current alpha does not yet provide a finished migration administration
-screen or bulk-import command. Integrators must call the two migration services
-from a reviewed, one-time CiviCRM-bootstrap script; direct inserts into the
-extension tables are unsupported. See [Migrating existing users](docs/migration.md)
-and [Security model](docs/security.md).
+The current alpha includes a CLI importer with a mandatory dry-run-first
+workflow. It accepts no email addresses or passwords, does not update contact
+profiles and rejects unknown fields. Create a protected JSON manifest outside
+the web root:
+
+```json
+{
+  "issuer": "https://id.example.org/application/o/civicrm/",
+  "entries": [
+    {
+      "subject": "248289761001",
+      "user_id": 20,
+      "managed_role_ids": [3]
+    }
+  ]
+}
+```
+
+Run the importer through a fully bootstrapped CiviCRM CLI. The first command
+only validates and reports the proposed links:
+
+```bash
+cv scr /path/to/oidc_sso/scripts/migrate-existing-users.php -- \
+  --manifest=/protected/path/civicrm-oidc-migration.json
+```
+
+Review every `READY` or `UNCHANGED` row. Apply the same validated manifest only
+after the dry-run succeeds:
+
+```bash
+cv scr /path/to/oidc_sso/scripts/migrate-existing-users.php -- \
+  --manifest=/protected/path/civicrm-oidc-migration.json --apply
+```
+
+The importer rejects duplicate subjects, duplicate local users, missing users
+or contacts, conflicting existing links, and managed roles the user does not
+already hold. Application is wrapped in a CiviCRM database transaction. Keep
+the manifest readable only by the migration administrator because OIDC
+subjects are personal identifiers; archive it according to local policy or
+securely remove it after approval and audit retention requirements are met.
+Direct inserts into extension tables remain unsupported. A finished web
+administration screen is not yet available. See
+[Migrating existing users](docs/migration.md) and
+[Security model](docs/security.md).
+
+For controlled automation, `--manifest=-` reads the same JSON document from
+standard input. Ensure pipeline logs cannot capture the manifest.
 
 ## Related projects
 

@@ -38,6 +38,19 @@ an initial OIDC login from silently taking control of a manually assigned role.
 already assigned, preserves existing managed assignments and records only the
 administrator-approved ownership transfer.
 
+## Reviewed CLI import
+
+`scripts/migrate-existing-users.php` consumes a strict JSON manifest containing
+one exact issuer and a list of `subject`, `user_id`, and optional
+`managed_role_ids` values. Run it with `cv scr`; without `--apply` it performs
+validation and reports the complete plan without writing. An apply run repeats
+all checks and wraps the links and role-ownership transfers in a CiviCRM
+transaction.
+
+The manifest must be protected as identity data. It must never contain local
+passwords, password hashes, OIDC client secrets, access tokens or refresh
+tokens. Direct database inserts are not a supported migration method.
+
 ## New users
 
 If no stable link exists, just-in-time provisioning is allowed only when the
