@@ -7,11 +7,13 @@ namespace Civi\OidcSso\Migration;
 use InvalidArgumentException;
 use JsonException;
 
-final readonly class MigrationManifest
+final class MigrationManifest
 {
     /** @param list<MigrationEntry> $entries */
-    private function __construct(public string $issuer, public array $entries)
-    {
+    private function __construct(
+        public readonly string $issuer,
+        public readonly array $entries,
+    ) {
     }
 
     public static function fromJson(string $json): self
