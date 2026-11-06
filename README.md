@@ -124,7 +124,7 @@ docker compose run --rm test
 
 The container installs development dependencies and runs Composer validation,
 the coding standard and the unit test suite. The same checks run in Gitea CI
-for PHP 8.1 through 8.4.
+for PHP 8.1 through 8.5.
 
 The extension uses the current civix extension format, the documented
 `AutomaticUpgrader`, `entity-types-php` and `setting-php` mixins, and CiviCRM's
