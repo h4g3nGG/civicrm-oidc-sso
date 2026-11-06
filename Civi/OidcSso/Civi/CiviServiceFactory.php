@@ -9,6 +9,7 @@ use Civi\OidcSso\Authorization\ClaimRoleSynchronizer;
 use Civi\OidcSso\Authorization\RoleMapper;
 use Civi\OidcSso\Authorization\RoleOwnershipMigrator;
 use Civi\OidcSso\Authorization\RoleReconciler;
+use Civi\OidcSso\Audit\AuditEventWriter;
 use Civi\OidcSso\Protocol\AuthorizationTransactionFactory;
 use Civi\OidcSso\Protocol\AuthorizationTransactionManager;
 use Civi\OidcSso\Protocol\DiscoveryUrlBuilder;
@@ -85,6 +86,7 @@ final class CiviServiceFactory
             new CiviStandaloneAccountGateway($api),
             new ClaimsProfileExtractor(),
             new CiviProvisioningTransaction(),
+            self::audit(),
         );
     }
 
@@ -99,8 +101,17 @@ final class CiviServiceFactory
             new RoleReconciler(
                 new CiviStandaloneRoleGateway($api),
                 new CiviManagedRoleRepository(),
+                self::audit(),
             ),
         );
+    }
+
+    public static function audit(): AuditEventWriter
+    {
+        return new CiviAuditEventWriter(self::secretFromConstant(
+            'CIVICRM_OIDC_SSO_AUDIT_KEY_FILE',
+            'OIDC audit HMAC key',
+        ));
     }
 
     public static function roleOwnershipMigrator(): RoleOwnershipMigrator

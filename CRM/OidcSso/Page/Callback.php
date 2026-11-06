@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Civi\OidcSso\Civi\CiviServiceFactory;
+use Civi\OidcSso\Audit\AuditEvent;
 
 final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
 {
@@ -27,14 +28,41 @@ final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
                 $authenticated->returnPath,
                 time(),
             );
+            CiviServiceFactory::audit()->append(
+                AuditEvent::AUTHENTICATION,
+                AuditEvent::SUCCESS,
+                $identity->userId,
+            );
         } catch (Throwable $exception) {
-            Civi::log()->warning('OpenID Connect callback was rejected: {message}', [
-                'message' => $exception->getMessage(),
+            Civi::log()->warning('OpenID Connect callback was rejected ({exception_class}).', [
+                'exception_class' => $exception::class,
             ]);
+            try {
+                CiviServiceFactory::audit()->append(
+                    AuditEvent::AUTHENTICATION,
+                    AuditEvent::REJECTED,
+                    null,
+                    ['reason_code' => $this->reasonCode($exception)],
+                );
+            } catch (Throwable $auditException) {
+                Civi::log()->error('OpenID Connect audit write failed ({exception_class}).', [
+                    'exception_class' => $auditException::class,
+                ]);
+            }
             CRM_Core_Error::statusBounce(ts('OpenID Connect login failed. Please start the login again.'));
             return;
         }
         CRM_Utils_System::redirect($redirect);
+    }
+
+    private function reasonCode(Throwable $exception): string
+    {
+        return match (true) {
+            $exception instanceof \Civi\OidcSso\Exception\OidcValidationException => 'protocol_validation_failed',
+            $exception instanceof InvalidArgumentException => 'invalid_request',
+            $exception instanceof RuntimeException => 'runtime_failure',
+            default => 'unexpected_failure',
+        };
     }
 
     private function requiredQueryString(string $name): string

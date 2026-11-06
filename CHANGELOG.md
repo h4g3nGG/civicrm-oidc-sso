@@ -3,6 +3,17 @@
 All notable changes to this project are documented in this file. Versions use
 [Semantic Versioning](https://semver.org/) with pre-release identifiers.
 
+## Unreleased
+
+### Added
+
+- Data-minimized audit events for authentication, identity provisioning,
+  existing-user migration and managed-role reconciliation.
+- Application-serialized HMAC hash chaining and a CLI integrity verifier for
+  detecting modification, removal or reordering of audit events.
+- A separate file-based audit HMAC key.
+- Complete Extension Directory metadata and CI manifest validation.
+
 ## 0.2.0-alpha.1 - 2026-11-06
 
 First public evaluation release.

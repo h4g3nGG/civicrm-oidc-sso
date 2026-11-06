@@ -24,6 +24,7 @@ jobs:
           # setup-php can stall or fail GitHub API probes.
           github-token: ''
       - run: composer validate --strict
+      - run: php scripts/validate-manifest.php
       - run: composer install --no-interaction --prefer-dist
       - run: composer check
 

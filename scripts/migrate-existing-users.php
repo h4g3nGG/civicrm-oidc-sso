@@ -3,10 +3,12 @@
 declare(strict_types=1);
 
 use Civi\OidcSso\Authorization\RoleOwnershipMigrator;
+use Civi\OidcSso\Audit\AuditEvent;
 use Civi\OidcSso\Civi\CiviApi4Client;
 use Civi\OidcSso\Civi\CiviExternalIdentityRepository;
 use Civi\OidcSso\Civi\CiviManagedRoleRepository;
 use Civi\OidcSso\Civi\CiviProvisioningTransaction;
+use Civi\OidcSso\Civi\CiviServiceFactory;
 use Civi\OidcSso\Civi\CiviStandaloneAccountGateway;
 use Civi\OidcSso\Civi\CiviStandaloneRoleGateway;
 use Civi\OidcSso\Identity\ExistingIdentityLinker;
@@ -84,6 +86,9 @@ foreach ($manifest->entries as $index => $entry) {
 }
 
 if (!$apply) {
+    CiviServiceFactory::audit()->append(AuditEvent::MIGRATION, AuditEvent::DRY_RUN, null, [
+        'entry_count' => count($prepared),
+    ]);
     printf("DRY-RUN OK entries=%d; rerun with --apply to commit.\n", count($prepared));
     return;
 }
@@ -99,4 +104,13 @@ $transaction->run(function () use ($prepared, $manifest, $linker, $roleMigrator)
         }
     }
 });
+$audit = CiviServiceFactory::audit();
+foreach ($prepared as $item) {
+    if (!$item['already_linked']) {
+        $audit->append(AuditEvent::IDENTITY_LINKED, AuditEvent::SUCCESS, $item['entry']->userId);
+    }
+}
+$audit->append(AuditEvent::MIGRATION, AuditEvent::APPLIED, null, [
+    'entry_count' => count($prepared),
+]);
 printf("APPLIED entries=%d\n", count($prepared));

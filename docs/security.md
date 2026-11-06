@@ -57,3 +57,23 @@ A local break-glass administrator may remain available through a separately
 controlled route. Its use must be logged, rate-limited and excluded from OIDC
 role reconciliation.
 
+## Audit trail
+
+The extension records controlled events for authentication, identity
+provisioning/linking, role reconciliation and migration. Its detail schema is
+an explicit allow list: local numeric user IDs, counters and short enumerated
+reason codes only. It excludes tokens, claims, issuer/subject identifiers,
+email addresses, usernames and exception messages.
+
+Audit events form an HMAC-SHA-256 chain. A transactional singleton head row is
+locked while appending an event, providing deterministic order under
+concurrent logins. The separate audit key is read from a protected file and
+must not be stored with the database. The CLI verifier detects modification,
+deletion and reordering when the attacker does not possess that key.
+
+This is application-level tamper evidence, not immutable or externally
+anchored logging. An attacker with both database write access and the audit key
+can rebuild the chain. Deployments needing stronger evidence should export
+events and periodically anchor the verifier's final head hash in independently
+protected storage.
+

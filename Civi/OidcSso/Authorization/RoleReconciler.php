@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Civi\OidcSso\Authorization;
 
+use Civi\OidcSso\Audit\AuditEvent;
+use Civi\OidcSso\Audit\AuditEventWriter;
+
 final class RoleReconciler
 {
     public function __construct(
         private readonly UserRoleGateway $roles,
         private readonly ManagedRoleRepository $managed,
+        private readonly ?AuditEventWriter $audit = null,
     ) {
     }
 
@@ -32,6 +36,10 @@ final class RoleReconciler
 
         $this->roles->replace($userId, array_values($result));
         $this->managed->replace($userId, array_values($managedResult));
+        $this->audit?->append(AuditEvent::ROLE_RECONCILIATION, AuditEvent::SUCCESS, $userId, [
+            'added_count' => count($newlyAdded),
+            'removed_count' => count($rolesToRemove),
+        ]);
     }
 
     /** @param list<int> $values @return array<int, int> */

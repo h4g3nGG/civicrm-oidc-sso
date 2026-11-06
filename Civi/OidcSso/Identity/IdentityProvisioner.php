@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Civi\OidcSso\Identity;
 
+use Civi\OidcSso\Audit\AuditEvent;
+use Civi\OidcSso\Audit\AuditEventWriter;
+
 final class IdentityProvisioner
 {
     public function __construct(
@@ -11,6 +14,7 @@ final class IdentityProvisioner
         private readonly LocalAccountGateway $accounts,
         private readonly ClaimsProfileExtractor $profiles,
         private readonly ProvisioningTransaction $transaction,
+        private readonly ?AuditEventWriter $audit = null,
     ) {
     }
 
@@ -21,16 +25,24 @@ final class IdentityProvisioner
         $subject = $this->requiredIdentityClaim($claims, 'sub', 255);
         $profile = $this->profiles->extract($claims);
 
-        return $this->transaction->run(function () use ($issuer, $subject, $profile): ExternalIdentity {
+        $created = false;
+        $identity = $this->transaction->run(function () use ($issuer, $subject, $profile, &$created): ExternalIdentity {
             $existing = $this->identities->find($issuer, $subject);
             if ($existing !== null) {
                 $this->accounts->update($existing, $profile);
                 return $existing;
             }
-            $created = $this->accounts->create($profile);
-            $this->identities->create($issuer, $subject, $created);
-            return $created;
+            $account = $this->accounts->create($profile);
+            $this->identities->create($issuer, $subject, $account);
+            $created = true;
+            return $account;
         });
+        $this->audit?->append(
+            $created ? AuditEvent::IDENTITY_CREATED : AuditEvent::IDENTITY_UPDATED,
+            AuditEvent::SUCCESS,
+            $identity->userId,
+        );
+        return $identity;
     }
 
     /** @param array<string, mixed> $claims */

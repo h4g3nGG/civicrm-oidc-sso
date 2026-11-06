@@ -5,8 +5,8 @@ single sign-on using OpenID Connect (OIDC). The project aims to support
 just-in-time user provisioning and deterministic mapping of trusted OIDC group
 claims to existing CiviCRM roles without modifying CiviCRM core.
 
-> **Development status:** `0.2.0-alpha.1` is intended for evaluation and
-> integration testing. It is not approved for production use. See the
+> **Development status:** `0.3.0-dev` follows the `0.2.0-alpha.1` evaluation
+> release. It is not approved for production use. See the
 > [changelog](CHANGELOG.md) for release scope and known limitations.
 
 ## Origin and support
@@ -136,12 +136,32 @@ the web root. Define their paths in `civicrm.settings.php`:
 ```php
 define('CIVICRM_OIDC_SSO_CLIENT_SECRET_FILE', '/run/secrets/oidc_client_secret');
 define('CIVICRM_OIDC_SSO_TRANSACTION_KEY_FILE', '/run/secrets/oidc_transaction_key');
+define('CIVICRM_OIDC_SSO_AUDIT_KEY_FILE', '/run/secrets/oidc_audit_key');
 ```
 
-The transaction key must contain at least 32 random bytes. A public client
+The transaction and audit keys must each contain at least 32 independent
+random bytes. A public client
 using token-endpoint authentication method `none` does not need a client-secret
-file. Container deployments should mount both files read-only using their
+file. Container deployments should mount all secret files read-only using their
 orchestrator's documented secrets mechanism.
+
+### Audit log
+
+Authentication, identity provisioning/linking, managed-role reconciliation
+and migration create extension-owned audit events. They contain only local
+numeric user IDs where applicable, controlled codes and numeric counters. OIDC
+subjects, tokens, email addresses, usernames, claims and exception messages
+are not written to this audit log.
+
+Events are HMAC-chained under a dedicated key. Verify the chain from a fully
+bootstrapped CiviCRM CLI with:
+
+```bash
+cv scr /path/to/oidc_sso/scripts/verify-audit-log.php
+```
+
+The chain is tamper-evident, not immutable. For stronger assurance, retain the
+reported head hash periodically in an independently protected system.
 
 ## CiviCRM configuration
 
@@ -372,9 +392,11 @@ must not be stored in the extension directory:
 ```php
 define('CIVICRM_OIDC_SSO_TRANSACTION_KEY_FILE', '/run/secrets/oidc_transaction_key');
 define('CIVICRM_OIDC_SSO_CLIENT_SECRET_FILE', '/run/secrets/oidc_client_secret');
+define('CIVICRM_OIDC_SSO_AUDIT_KEY_FILE', '/run/secrets/oidc_audit_key');
 ```
 
-The transaction key must contain at least 32 bytes. Public clients configured
+The transaction and audit keys must each contain at least 32 independent
+random bytes. Public clients configured
 with token-endpoint authentication method `none` do not use a client-secret
 file. The registered redirect URI must exactly match the configured
 `oidc_sso_redirect_uri`, normally ending in `/civicrm/oidc/callback`.
@@ -382,6 +404,23 @@ file. The registered redirect URI must exactly match the configured
 Never commit client secrets, private keys, tokens, real user attributes,
 deployment hostnames or organization-specific role mappings. Examples and
 fixtures must use reserved domains such as `example.org` and synthetic data.
+
+## Publishing and Extension Directory metadata
+
+The repository-root `info.xml` is read by CiviCRM's Extension Manager and the
+CiviCRM Extension Directory. It carries the extension key, entrypoint,
+maintainer, project URLs, release metadata and CiviCRM/PHP compatibility. CI
+validates it, and release archives keep it at `oidc_sso/info.xml` beside the
+entrypoint.
+
+Every release tag and manifest version must match. Before migration from
+Gitea to GitHub, replace the manifest URLs with the final public GitHub URLs
+and run `php scripts/validate-manifest.php`. Beta releases may be shared with
+testers, but the official directory only lists stable releases. After a
+reviewed stable release exists on public GitHub, register it on civicrm.org and
+request approval separately for automated in-app distribution. The deprecated
+`downloadUrl` element must not be added; civicrm.org supplies release download
+metadata.
 
 ## License
 

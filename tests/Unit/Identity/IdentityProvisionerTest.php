@@ -11,6 +11,8 @@ use Civi\OidcSso\Identity\IdentityProvisioner;
 use Civi\OidcSso\Identity\LocalAccountGateway;
 use Civi\OidcSso\Identity\ProvisioningTransaction;
 use Civi\OidcSso\Identity\UserProfile;
+use Civi\OidcSso\Audit\AuditEvent;
+use Civi\OidcSso\Audit\AuditEventWriter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +31,11 @@ final class IdentityProvisionerTest extends TestCase
         $identities->expects(self::once())->method('create')
             ->with('https://id.example.org', 'subject-1', $created);
 
-        self::assertSame($created, $this->provisioner($identities, $accounts)->provision($this->claims()));
+        $audit = $this->createMock(AuditEventWriter::class);
+        $audit->expects(self::once())->method('append')
+            ->with(AuditEvent::IDENTITY_CREATED, AuditEvent::SUCCESS, 20);
+
+        self::assertSame($created, $this->provisioner($identities, $accounts, $audit)->provision($this->claims()));
     }
 
     public function testUpdatesOnlyAccountAlreadyLinkedByIssuerAndSubject(): void
@@ -49,6 +55,7 @@ final class IdentityProvisionerTest extends TestCase
     private function provisioner(
         ExternalIdentityRepository $identities,
         LocalAccountGateway $accounts,
+        ?AuditEventWriter $audit = null,
     ): IdentityProvisioner {
         $transaction = new class implements ProvisioningTransaction {
             public function run(callable $operation): mixed
@@ -56,7 +63,7 @@ final class IdentityProvisionerTest extends TestCase
                 return $operation();
             }
         };
-        return new IdentityProvisioner($identities, $accounts, new ClaimsProfileExtractor(), $transaction);
+        return new IdentityProvisioner($identities, $accounts, new ClaimsProfileExtractor(), $transaction, $audit);
     }
 
     /** @return array<string, mixed> */
