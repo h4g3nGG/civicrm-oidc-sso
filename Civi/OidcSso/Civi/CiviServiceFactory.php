@@ -7,6 +7,7 @@ namespace Civi\OidcSso\Civi;
 use Civi\OidcSso\Authorization\ClaimGroupExtractor;
 use Civi\OidcSso\Authorization\ClaimRoleSynchronizer;
 use Civi\OidcSso\Authorization\RoleMapper;
+use Civi\OidcSso\Authorization\RoleOwnershipMigrator;
 use Civi\OidcSso\Authorization\RoleReconciler;
 use Civi\OidcSso\Protocol\AuthorizationTransactionFactory;
 use Civi\OidcSso\Protocol\AuthorizationTransactionManager;
@@ -99,6 +100,15 @@ final class CiviServiceFactory
                 new CiviStandaloneRoleGateway($api),
                 new CiviManagedRoleRepository(),
             ),
+        );
+    }
+
+    public static function roleOwnershipMigrator(): RoleOwnershipMigrator
+    {
+        $api = new CiviApi4Client();
+        return new RoleOwnershipMigrator(
+            new CiviStandaloneRoleGateway($api),
+            new CiviManagedRoleRepository(),
         );
     }
 

@@ -16,9 +16,14 @@ stable external-identity link instead of replacing or recreating local records.
    contacts and conflicts with links already stored by the extension.
 5. Create only the extension-owned identity-link records. Do not change the
    contact or user during this import.
-6. Test OIDC login with a small pilot group. Once linked, later successful
+6. For every existing role which should subsequently follow an OIDC group,
+   explicitly transfer ownership of that already assigned role to the
+   extension. The migration must refuse roles which the user does not currently
+   hold. Roles omitted from this step remain manual and are never removed by
+   OIDC reconciliation.
+7. Test OIDC login with a small pilot group. Once linked, later successful
    logins may update explicitly permitted mutable profile fields.
-7. Keep local passwords during a transition period. Disable ordinary local
+8. Keep local passwords during a transition period. Disable ordinary local
    login only after all users have been verified, while retaining a separately
    controlled break-glass administrator.
 
@@ -26,6 +31,12 @@ The linking operation is transactional and refuses to overwrite an existing
 `(issuer, subject)` link. The database also enforces that a local `UFMatch` can
 belong to at most one external identity. Ambiguous rows require an explicit
 administrator decision.
+
+Role ownership is deliberately separate from identity linking. This prevents
+an initial OIDC login from silently taking control of a manually assigned role.
+`RoleOwnershipMigrator::claimExisting()` validates that every requested role is
+already assigned, preserves existing managed assignments and records only the
+administrator-approved ownership transfer.
 
 ## New users
 
