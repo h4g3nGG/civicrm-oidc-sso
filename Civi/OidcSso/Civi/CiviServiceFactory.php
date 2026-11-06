@@ -90,9 +90,7 @@ final class CiviServiceFactory
     public static function roleSynchronizer(): ClaimRoleSynchronizer
     {
         $claim = (string) \Civi::settings()->get('oidc_sso_group_claim');
-        $encodedMapping = (string) \Civi::settings()->get('oidc_sso_role_mapping');
-        /** @var array<string, list<int>> $mapping */
-        $mapping = json_decode($encodedMapping, true, 16, JSON_THROW_ON_ERROR);
+        $mapping = RoleMappingSetting::decode(\Civi::settings()->get('oidc_sso_role_mapping'));
         $api = new CiviApi4Client();
         return new ClaimRoleSynchronizer(
             new ClaimGroupExtractor($claim),
