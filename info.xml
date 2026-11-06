@@ -8,7 +8,7 @@
     <author>Contributors</author>
   </maintainer>
   <releaseDate>2026-11-06</releaseDate>
-  <version>0.1.0-dev</version>
+  <version>0.2.0-dev</version>
   <develStage>alpha</develStage>
   <compatibility>
     <ver>6.19</ver>
