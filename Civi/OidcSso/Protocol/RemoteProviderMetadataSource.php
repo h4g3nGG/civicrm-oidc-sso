@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Civi\OidcSso\Protocol;
 
-final class RemoteProviderMetadataSource
+final class RemoteProviderMetadataSource implements ProviderMetadataSource
 {
     public function __construct(
         private readonly JsonDocumentFetcher $fetcher,

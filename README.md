@@ -65,11 +65,14 @@ The current development version includes tested building blocks for:
 - verifying compact JWS ID-token signatures against an algorithm allow list;
 - selecting signing keys by `kid` and refreshing JWKS once after key rotation;
 - validating issuer, audience, authorized party, nonce and temporal claims; and
-- reconciling explicitly configured group-to-role mappings.
+- reconciling explicitly configured group-to-role mappings; and
+- exposing disabled-by-default CiviCRM login and callback routes which create,
+  consume and cryptographically validate a complete OIDC browser transaction.
 
-The transaction repository and HTTP adapter have integration coverage, but
-user provisioning, session establishment and the complete administration UI
-are not yet finished. The extension is therefore not ready for production use.
+The transaction repository, HTTP adapter and browser protocol flow have
+integration coverage, but user provisioning, session establishment and the
+complete administration UI are not yet finished. The extension is therefore
+not ready for production use and must remain disabled.
 
 ## Configuration model (planned)
 
@@ -129,6 +132,21 @@ The extension refuses to persist OIDC transaction secrets when CiviCRM falls
 back to plain-text credential storage. The OIDC client secret and transaction
 HMAC key will be supplied through protected deployment configuration rather
 than ordinary database settings.
+
+The login transaction HMAC key and, for confidential clients, the OIDC client
+secret are read from files. Deployments define their paths in
+`civicrm.settings.php`; the files themselves should be mounted read-only and
+must not be stored in the extension directory:
+
+```php
+define('CIVICRM_OIDC_SSO_TRANSACTION_KEY_FILE', '/run/secrets/oidc_transaction_key');
+define('CIVICRM_OIDC_SSO_CLIENT_SECRET_FILE', '/run/secrets/oidc_client_secret');
+```
+
+The transaction key must contain at least 32 bytes. Public clients configured
+with token-endpoint authentication method `none` do not use a client-secret
+file. The registered redirect URI must exactly match the configured
+`oidc_sso_redirect_uri`, normally ending in `/civicrm/oidc/callback`.
 
 Never commit client secrets, private keys, tokens, real user attributes,
 deployment hostnames or organization-specific role mappings. Examples and

@@ -6,7 +6,7 @@ namespace Civi\OidcSso\Protocol;
 
 use Civi\OidcSso\Exception\UnknownSigningKeyException;
 
-final class RotatingIdTokenVerifier
+final class RotatingIdTokenVerifier implements VerifiedIdTokenDecoder
 {
     public function __construct(
         private readonly IdTokenSignatureVerifier $signatureVerifier,

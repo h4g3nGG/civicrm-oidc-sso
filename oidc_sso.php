@@ -26,3 +26,9 @@ function oidc_sso_civicrm_enable(): void
 {
     _oidc_sso_civix_civicrm_enable();
 }
+
+/** Implements hook_civicrm_xmlMenu(). */
+function oidc_sso_civicrm_xmlMenu(array &$files): void
+{
+    $files[] = __DIR__ . '/xml/Menu/oidc_sso.xml';
+}

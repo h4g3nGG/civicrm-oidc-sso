@@ -6,7 +6,7 @@ namespace Civi\OidcSso\Protocol;
 
 use InvalidArgumentException;
 
-final class TokenEndpointClient
+final class TokenEndpointClient implements TokenExchanger
 {
     public const AUTH_NONE = 'none';
     public const AUTH_CLIENT_SECRET_BASIC = 'client_secret_basic';

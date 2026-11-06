@@ -15,6 +15,12 @@ The extension is planned as five independently testable services:
 5. **Session bridge** — establishes the browser session through CiviCRM AuthX
    rather than reproducing CiviCRM's session internals.
 
+The public entry points are declared through CiviCRM's XML routing mechanism at
+`civicrm/oidc/login` and `civicrm/oidc/callback`. Both routes are inert while
+the extension setting is disabled. The callback consumes the one-time
+transaction before processing provider errors, exchanging a code or validating
+the token, so failed callbacks cannot be replayed.
+
 ## Data ownership
 
 The extension owns only its configuration, external identity links, transient

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+  <item>
+    <path>civicrm/oidc/login</path>
+    <title>OpenID Connect login</title>
+    <page_callback>CRM_OidcSso_Page_Login</page_callback>
+    <access_callback>1</access_callback>
+    <is_public>true</is_public>
+    <is_ssl>true</is_ssl>
+  </item>
+  <item>
+    <path>civicrm/oidc/callback</path>
+    <title>OpenID Connect callback</title>
+    <page_callback>CRM_OidcSso_Page_Callback</page_callback>
+    <access_callback>1</access_callback>
+    <is_public>true</is_public>
+    <is_ssl>true</is_ssl>
+  </item>
+</menu>
