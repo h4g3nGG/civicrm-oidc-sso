@@ -43,16 +43,21 @@ final class CiviAuditEventWriter implements AuditEventWriter
                 $userId === null ? '' : (string) $userId, $detailJson,
             ]);
             $eventHash = hash_hmac('sha256', $canonical, $this->key);
+            $userValue = $userId === null ? 'NULL' : '%5';
+            $parameters = [
+                1 => [$eventId, 'String'], 2 => [$occurredAt, 'String'],
+                3 => [$eventType, 'String'], 4 => [$outcome, 'String'],
+                6 => [$detailJson, 'String'], 7 => [$previousHash, 'String'],
+                8 => [$eventHash, 'String'],
+            ];
+            if ($userId !== null) {
+                $parameters[5] = [$userId, 'Integer'];
+            }
             \CRM_Core_DAO::executeQuery(
                 'INSERT INTO civicrm_oidc_sso_audit_event'
                 . ' (event_id, occurred_at, event_type, outcome, uf_match_id, details_json, previous_hash, event_hash)'
-                . ' VALUES (%1, %2, %3, %4, %5, %6, %7, %8)',
-                [
-                    1 => [$eventId, 'String'], 2 => [$occurredAt, 'String'],
-                    3 => [$eventType, 'String'], 4 => [$outcome, 'String'],
-                    5 => [$userId, 'Integer'], 6 => [$detailJson, 'String'],
-                    7 => [$previousHash, 'String'], 8 => [$eventHash, 'String'],
-                ],
+                . " VALUES (%1, %2, %3, %4, {$userValue}, %6, %7, %8)",
+                $parameters,
             );
             \CRM_Core_DAO::executeQuery(
                 'UPDATE civicrm_oidc_sso_audit_head SET last_hash = %1 WHERE id = 1',
