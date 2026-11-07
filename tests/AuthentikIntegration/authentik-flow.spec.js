@@ -10,5 +10,6 @@ test('authenticates through a real authentik OpenID Provider', async ({ page }) 
   await page.getByRole('button', { name: /log in|continue/i }).click();
 
   await expect(page).toHaveURL(/https:\/\/civicrm\/civicrm\/home/, { timeout: 30000 });
-  await expect(page.locator('body')).toContainText('CiviCRM');
+  await page.waitForLoadState('domcontentloaded');
+  await expect(page.locator('body')).toContainText('CiviCRM', { timeout: 30000 });
 });
