@@ -1,7 +1,7 @@
 # Internal pre-release security review
 
 This document records the maintainer's internal review of the
-`0.3.0-beta.5` candidate on 2026-11-07. It is evidence for release
+`0.3.0-beta.6` candidate on 2026-11-07. It is evidence for release
 preparation, not an independent security assessment and not production
 approval.
 
@@ -60,6 +60,15 @@ additional attempts (`260` and `264`) ended during Playwright image extraction
 because their runner storage was exhausted; neither reached the application
 test. The runner caches were subsequently pruned without deleting volumes or
 running containers, after which run `265` passed.
+
+GitHub Actions run `42395682614` passed the full matrix, package validation,
+mock-provider browser flow and real-Authentik browser flow on the PR that
+hardened the mock-provider readiness assertions. Follow-up PR run
+`42396550071` passed the same complete matrix after applying the identical
+bounded document-readiness check to the real-Authentik browser specification.
+Merged `main` run `42397022969` then passed PHP 8.1 through 8.5, package
+validation, the mock-provider full-stack flow and the real-Authentik 2026.8.5
+full-stack flow on the beta.6 candidate lineage.
 
 The beta.3 candidate additionally exercised CiviCRM's bundled
 `setting-admin@1.1.1` mixin on CiviCRM 6.19.5. The generated generic settings

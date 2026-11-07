@@ -28,6 +28,11 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
   verification. Runs `260` and `264` were excluded as product evidence because
   their Playwright image extraction stopped with an explicitly diagnosed
   runner-storage exhaustion before any browser assertion ran;
+- GitHub PR runs `42395682614` and `42396550071` passed the complete matrix
+  while adding bounded CiviCRM document-readiness checks to the mock-provider
+  and real-Authentik browser specifications respectively; merged `main` run
+  `42397022969` then passed PHP 8.1 through 8.5, package validation and both
+  isolated full-stack browser flows on the combined candidate;
 
 - the exact published `0.3.0-beta.2` archive was checksum-verified, validated,
   installed and discovered as version `0.3.0-beta.2`; no extension database

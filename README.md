@@ -5,7 +5,8 @@ single sign-on using OpenID Connect (OIDC). The project aims to support
 just-in-time user provisioning and deterministic mapping of trusted OIDC group
 claims to existing CiviCRM roles without modifying CiviCRM core.
 
-> **Development status:** `0.3.0-beta.5` is a public evaluation release. It is
+> **Development status:** `0.3.0-beta.6` is a public evaluation release
+> candidate. It is
 > not approved for production use and has not completed an independent
 > security review. See the
 > [changelog](CHANGELOG.md) for release scope and known limitations.
