@@ -15,7 +15,7 @@
     <url desc="Licensing">https://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
   <releaseDate>2026-11-07</releaseDate>
-  <version>0.3.0-beta.5</version>
+  <version>0.3.0-beta.6</version>
   <develStage>beta</develStage>
   <compatibility>
     <ver>6.19</ver>
