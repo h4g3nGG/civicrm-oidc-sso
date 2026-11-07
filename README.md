@@ -398,6 +398,12 @@ is non-mutating, applies an explicit protected manifest and verifies through
 browser login that local IDs, profile data and manual roles survive while only
 the transferred OIDC-managed role is later removed.
 
+A separate, slower CI job uses the pinned official Authentik image, PostgreSQL
+and an atomically applied file-based Blueprint to exercise real Authentik
+password authentication, provider-suffix discovery, signed tokens, custom
+group claims, CiviCRM JIT provisioning and role assignment. It also publishes
+no host ports and removes all volumes after the run.
+
 The extension uses the current civix extension format, the documented
 `AutomaticUpgrader`, `entity-types-php` and `setting-php` mixins, and CiviCRM's
 credential cryptography service. Remote OpenID Connect endpoints are accessed

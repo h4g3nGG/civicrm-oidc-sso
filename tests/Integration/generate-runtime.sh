@@ -12,7 +12,7 @@ openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
   -out "$runtime/tls/ca.crt"
 openssl req -new -newkey rsa:2048 -nodes \
   -subj '/CN=civicrm' \
-  -addext 'subjectAltName=DNS:civicrm,DNS:oidc' \
+  -addext 'subjectAltName=DNS:civicrm,DNS:oidc,DNS:authentik' \
   -keyout "$runtime/tls/server.key" \
   -out "$runtime/tls/server.csr"
 openssl x509 -req -days 1 \

@@ -1,0 +1,121 @@
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: e2e-root-only
+      MARIADB_DATABASE: civicrm
+      MARIADB_USER: civicrm
+      MARIADB_PASSWORD: e2e-database-only
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      timeout: 2s
+      retries: 60
+    networks: [e2e]
+
+  app:
+    image: civicrm/civicrm:6.19.5-php8.3
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      CIVICRM_DB_HOST: db
+      CIVICRM_DB_PORT: 3306
+      CIVICRM_DB_NAME: civicrm
+      CIVICRM_DB_USER: civicrm
+      CIVICRM_DB_PASSWORD: e2e-database-only
+      CIVICRM_UF_BASEURL: https://civicrm
+      SSL_CERT_FILE: /run/e2e-tls/ca.crt
+      CURL_CA_BUNDLE: /run/e2e-tls/ca.crt
+    volumes:
+      - private:/var/www/html/private
+      - public:/var/www/html/public
+      - extensions:/var/www/html/ext
+      - ${E2E_RELEASE_ARCHIVE:?set E2E_RELEASE_ARCHIVE}:/run/e2e/oidc_sso.tar.gz:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/tls/ca.crt:/run/e2e-tls/ca.crt:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/secrets:/run/e2e-secrets:ro
+    networks: [e2e]
+
+  authentik-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: authentik
+      POSTGRES_USER: authentik
+      POSTGRES_PASSWORD_FILE: /run/authentik-secrets/postgres_password
+    volumes:
+      - authentik_database:/var/lib/postgresql/data
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/authentik-secrets:/run/authentik-secrets:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d authentik -U authentik"]
+      interval: 2s
+      timeout: 3s
+      retries: 90
+    networks: [e2e]
+
+  authentik-server:
+    image: ghcr.io/goauthentik/server:2026.8.5
+    command: server
+    depends_on:
+      authentik-db:
+        condition: service_healthy
+    environment: &authentik_environment
+      AUTHENTIK_POSTGRESQL__HOST: authentik-db
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: file:///run/authentik-secrets/postgres_password
+      AUTHENTIK_SECRET_KEY: file:///run/authentik-secrets/secret_key
+      AUTHENTIK_WEB__BASE_URL: https://authentik
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+      AUTHENTIK_E2E_USER_PASSWORD: e2e-authentik-password
+      AUTHENTIK_E2E_CLIENT_SECRET: e2e-client-secret
+    volumes:
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/authentik-secrets:/run/authentik-secrets:ro
+      - ./blueprint.yaml:/blueprints/civicrm-e2e.yaml:ro
+    networks: [e2e]
+
+  authentik-worker:
+    image: ghcr.io/goauthentik/server:2026.8.5
+    command: worker
+    depends_on:
+      authentik-db:
+        condition: service_healthy
+    environment: *authentik_environment
+    volumes:
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/authentik-secrets:/run/authentik-secrets:ro
+      - ./blueprint.yaml:/blueprints/civicrm-e2e.yaml:ro
+    networks: [e2e]
+
+  gateway:
+    image: caddy:2.10.2-alpine
+    depends_on: [app, authentik-server]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/tls/server.crt:/run/e2e-tls/server.crt:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/tls/server.key:/run/e2e-tls/server.key:ro
+    networks:
+      e2e:
+        aliases: [civicrm, authentik]
+
+  browser:
+    image: mcr.microsoft.com/playwright:v1.65.0-noble
+    working_dir: /work
+    environment:
+      CI: "true"
+      E2E_TEST_MATCH: authentik-flow.spec.js
+    volumes:
+      - ../Integration/browser:/source:ro
+      - ./authentik-flow.spec.js:/authentik-flow.spec.js:ro
+      - browser_work:/work
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/browser-results:/results
+    networks: [e2e]
+
+volumes:
+  private:
+  public:
+  extensions:
+  authentik_database:
+  browser_work:
+
+networks:
+  e2e:
+    driver: bridge

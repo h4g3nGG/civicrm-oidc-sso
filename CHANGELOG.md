@@ -11,6 +11,8 @@ All notable changes to this project are documented in this file. Versions use
   just-in-time provisioning, explicit group mapping, managed-role removal,
   denial, existing-user migration with profile/manual-role preservation and
   audit-chain verification.
+- Add a separate isolated browser test against Authentik 2026.8.5 configured
+  through an atomic file-based Blueprint.
 
 ### Documentation
 

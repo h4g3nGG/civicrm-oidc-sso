@@ -1,6 +1,7 @@
 /vendor/
 /dist/
 /.e2e-runtime/
+/.authentik-e2e-runtime/
 /tests/Integration/browser/node_modules/
 /tests/Integration/browser/test-results/
 /.phpunit.cache/
