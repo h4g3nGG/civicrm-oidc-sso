@@ -5,10 +5,9 @@ single sign-on using OpenID Connect (OIDC). The project aims to support
 just-in-time user provisioning and deterministic mapping of trusted OIDC group
 claims to existing CiviCRM roles without modifying CiviCRM core.
 
-> **Development status:** `0.3.0-beta.6` is a public evaluation release
-> candidate. It is
-> not approved for production use and has not completed an independent
-> security review. See the
+> **Development status:** `1.0.0-rc.1` is the feature-complete release
+> candidate for the defined CiviCRM Standalone scope. It is not approved for
+> production use and has not completed an independent security review. See the
 > [changelog](CHANGELOG.md) for release scope and known limitations.
 
 > **Independent security review requested:** The implementation is feature
@@ -129,9 +128,9 @@ address. They must be linked explicitly before cutover; see
 ## Installation
 
 The extension targets CiviCRM 6.19 or newer on Standalone and PHP 8.1 through
-8.5. Other user frameworks are unsupported. It is a beta evaluation release;
-install and validate it only in a separate test system. It is not approved for
-a production rollout.
+8.5. Other user frameworks are unsupported. The release candidate must be
+installed and validated only in a separate test system. It is not approved for
+a production rollout until the independent review gate is satisfied.
 
 1. Build or download a release archive whose top-level directory is
    `oidc_sso/`.

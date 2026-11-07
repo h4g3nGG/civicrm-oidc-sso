@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+## 1.0.0-rc.1 - 2026-11-07
+
+Feature-complete release candidate for the defined CiviCRM Standalone scope.
+This candidate freezes the intended 1.0 functionality for independent review
+and non-production evaluation. It is not approved for production use until the
+independent security-review gate has been completed.
+
 ### Changed
 
 - Define CiviCRM Standalone 6.19 or newer as the sole supported platform for
