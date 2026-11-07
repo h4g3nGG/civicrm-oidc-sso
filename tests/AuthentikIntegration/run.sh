@@ -42,7 +42,7 @@ if ! $compose run --rm browser sh -lc \
   'cp -R /source/. /work/ && cp /authentik-flow.spec.js /work/ && npm ci && npx playwright test'; then
   printf '%s\n' 'Sanitized CiviCRM OIDC start diagnostics:' >&2
   $compose exec -T app sh -c \
-    'grep -h "OpenID Connect login could not be started" /var/www/html/private/ConfigAndLog/CiviCRM*.log 2>/dev/null | tail -n 3' >&2 || true
+    'find /var/www/html -type f -name "*.log" -exec grep -h "OpenID Connect login could not be started" {} + 2>/dev/null | tail -n 3' >&2 || true
   exit 1
 fi
 sh tests/AuthentikIntegration/verify-civicrm.sh
