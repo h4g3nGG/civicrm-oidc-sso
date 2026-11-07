@@ -92,10 +92,12 @@ The current beta includes tested building blocks for:
 
 The protocol flow, user provisioning, role reconciliation, session handoff and
 auditable dry-run-first migration importer have automated coverage. CiviCRM's
-documented generic settings form provides the web administration UI. Automated
-end-to-end browser tests are not yet finished. The extension is therefore not
-ready for production use and must remain disabled outside isolated evaluation
-systems.
+documented generic settings form provides the web administration UI. An
+isolated browser-level stack additionally verifies signed OIDC login, JIT
+provisioning, managed-role removal, denial and audit integrity against an
+official CiviCRM image. Independent security review is still outstanding. The
+extension is therefore not ready for production use and must remain disabled
+outside isolated evaluation systems.
 
 Existing local accounts are never claimed automatically by matching an email
 address. They must be linked explicitly before cutover; see

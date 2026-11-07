@@ -1,8 +1,9 @@
 # Internal pre-release security review
 
-This document records the maintainer's internal review through release
-`0.3.0-beta.4` on 2026-11-07. It is evidence for release preparation, not an
-independent security assessment and not production approval.
+This document records the maintainer's internal review through the current
+post-`0.3.0-beta.4` `main` on 2026-11-07. It is evidence for release
+preparation, not an independent security assessment and not production
+approval.
 
 ## Scope
 
@@ -19,7 +20,7 @@ secret handling, audit integrity, packaging and public-repository hygiene.
   and PHP_CodeSniffer; no compatible security or maintenance update was
   pending.
 - PHP_CodeSniffer passed for all 108 scanned files.
-- PHPUnit 10.5.66 passed 126 tests with 276 assertions on PHP 8.5.12.
+- PHPUnit 10.5.66 passed 130 tests with 290 assertions on PHP 8.5.12.
 - `scripts/validate-manifest.php` passed.
 - `scripts/build-release.sh` produced a release archive containing the locked
   production dependencies.
@@ -34,6 +35,14 @@ secret handling, audit integrity, packaging and public-repository hygiene.
 GitHub Actions run `42368536079` passed the PHP 8.1, 8.2, 8.3, 8.4 and 8.5
 jobs plus the package job. A fresh CI run is required for every subsequent
 release candidate.
+
+GitHub Actions run `42374151310` on merged `main` additionally passed an
+isolated full-stack browser test using CiviCRM 6.19.5, MariaDB 10.11, a pinned
+mock OpenID Provider, ephemeral TLS and Playwright. It verified discovery and
+JWKS processing, signed login, JIT provisioning, exact group-to-role mapping,
+managed-role removal, denial of unmapped identities and final audit-chain
+integrity. The stack published no host ports and destroyed its volumes after
+the run.
 
 The beta.3 candidate additionally exercised CiviCRM's bundled
 `setting-admin@1.1.1` mixin on CiviCRM 6.19.5. The generated generic settings
@@ -76,10 +85,9 @@ production-ready stable release:
    CiviCRM AuthX handoff and deployment guidance.
 2. Resolve every material review finding and repeat the full verification
    matrix.
-3. Publish a dedicated private security contact and a supported-version
-   policy.
-4. Add an automated isolated browser-level OIDC/CiviCRM test. The existing
-   manual full-stack evidence remains required until that test exists.
+3. Replace the current volunteer security mailbox with a durable private
+   security-contact process and define response expectations before the first
+   stable release. The current beta support table remains informational.
 
 The publication metadata now points to the maintainer-owned GitHub repository.
 This accurately represents the project's current ownership and makes no claim
