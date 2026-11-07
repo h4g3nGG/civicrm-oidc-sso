@@ -63,10 +63,12 @@ production-ready stable release:
    matrix.
 3. Publish a dedicated private security contact and a supported-version
    policy.
-4. Replace the personal Gitea URLs in `info.xml` with the final neutral public
-   repository, documentation and issue URLs before publishing outside Gitea.
-5. Add an automated isolated browser-level OIDC/CiviCRM test. The existing
+4. Add an automated isolated browser-level OIDC/CiviCRM test. The existing
    manual full-stack evidence remains required until that test exists.
+
+The publication metadata now points to the maintainer-owned GitHub repository.
+This accurately represents the project's current ownership and makes no claim
+of affiliation with the CiviCRM project or another organization.
 
 The configured issuer and its discovered HTTPS endpoints form a trust
 boundary. Cross-origin provider endpoints are permitted by OpenID Connect and

@@ -17,6 +17,8 @@ All notable changes to this project are documented in this file. Versions use
   provisioning, role changes, existing-user migration, denial and cleanup.
 - An internal pre-release security-review record with automated evidence,
   manual findings and explicit remaining release gates.
+- A GitHub Actions matrix and canonical GitHub publication links while
+  retaining the original Gitea repository as a development mirror.
 
 ### Fixed
 

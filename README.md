@@ -433,14 +433,15 @@ maintainer, project URLs, release metadata and CiviCRM/PHP compatibility. CI
 validates it, and release archives keep it at `oidc_sso/info.xml` beside the
 entrypoint.
 
-Every release tag and manifest version must match. Before migration from
-Gitea to GitHub, replace the manifest URLs with the final public GitHub URLs
-and run `php scripts/validate-manifest.php`. Beta releases may be shared with
-testers, but the official directory only lists stable releases. After a
-reviewed stable release exists on public GitHub, register it on civicrm.org and
-request approval separately for automated in-app distribution. The deprecated
-`downloadUrl` element must not be added; civicrm.org supplies release download
-metadata.
+Every release tag and manifest version must match. The canonical publication
+URLs point to [GitHub](https://github.com/h4g3nGG/civicrm-oidc-sso), while the
+original private Gitea repository may remain as a development mirror. Run
+`php scripts/validate-manifest.php` after changing release metadata. Beta
+releases may be shared with testers, but the official directory only lists
+stable releases. After a reviewed stable release exists on public GitHub,
+register it on civicrm.org and request approval separately for automated
+in-app distribution. The deprecated `downloadUrl` element must not be added;
+civicrm.org supplies release download metadata.
 
 ## License
 
