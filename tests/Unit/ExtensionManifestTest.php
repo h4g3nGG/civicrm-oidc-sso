@@ -31,6 +31,21 @@ final class ExtensionManifestTest extends TestCase
         self::assertSame(['8.1', '8.2', '8.3', '8.4', '8.5'], $phpVersions);
     }
 
+    public function testUsesDocumentedSettingsAdministrationMixin(): void
+    {
+        $manifest = simplexml_load_file(__DIR__ . '/../../info.xml');
+        self::assertNotFalse($manifest);
+        $mixins = [];
+        foreach ($manifest->mixins->mixin as $mixin) {
+            $mixins[] = (string) $mixin;
+        }
+        self::assertContains('setting-admin@1.1.1', $mixins);
+        self::assertSame(
+            'OpenID Connect SSO Settings',
+            (string) $manifest->civix->{'setting-page-title'},
+        );
+    }
+
     public function testAuditUpgradeSchemasAreFrozenSnapshots(): void
     {
         foreach (['OidcSsoAuditEvent', 'OidcSsoAuditHead'] as $entity) {
