@@ -13,6 +13,8 @@ All notable changes to this project are documented in this file. Versions use
   detecting modification, removal or reordering of audit events.
 - A separate file-based audit HMAC key.
 - Complete Extension Directory metadata and CI manifest validation.
+- A documented full-stack release-verification matrix covering JIT
+  provisioning, role changes, existing-user migration, denial and cleanup.
 
 ### Fixed
 

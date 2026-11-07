@@ -327,7 +327,8 @@ securely remove it after approval and audit retention requirements are met.
 Direct inserts into extension tables remain unsupported. A finished web
 administration screen is not yet available. See
 [Migrating existing users](docs/migration.md) and
-[Security model](docs/security.md).
+[Security model](docs/security.md). The reproducible pre-release lifecycle
+matrix is maintained in [Release verification](docs/release-verification.md).
 
 For controlled automation, `--manifest=-` reads the same JSON document from
 standard input. Ensure pipeline logs cannot capture the manifest.
