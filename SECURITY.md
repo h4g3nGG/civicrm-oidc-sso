@@ -35,7 +35,8 @@ must be sent privately to the security address above.
 
 | Version | Security support | Production status |
 | --- | --- | --- |
-| `main` / `0.3.0-beta.6` candidate | Best-effort beta fixes | Not approved |
+| `main` / `1.0.0-rc.1` candidate | Best-effort release-candidate fixes | Not approved |
+| `0.3.0-beta.6` candidate | Unpublished and superseded | Not approved |
 | `0.3.0-beta.4` | Superseded evaluation build | Not approved |
 | `0.3.0-beta.3` | Superseded evaluation build | Not approved |
 | `0.3.0-beta.2` | Superseded evaluation build | Not approved |

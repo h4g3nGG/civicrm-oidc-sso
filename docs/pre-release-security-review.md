@@ -1,7 +1,7 @@
 # Internal pre-release security review
 
 This document records the maintainer's internal review of the
-`0.3.0-beta.6` candidate on 2026-11-07. It is evidence for release
+`1.0.0-rc.1` candidate on 2026-11-07. It is evidence for release
 preparation, not an independent security assessment and not production
 approval.
 
@@ -70,6 +70,11 @@ Merged `main` run `42397022969` then passed PHP 8.1 through 8.5, package
 validation, the mock-provider full-stack flow and the real-Authentik 2026.8.5
 full-stack flow on the beta.6 candidate lineage.
 
+Merged `main` run `42401647154` passed the same complete matrix after the
+Standalone-only compatibility boundary, feature-complete status and public
+independent-review scope were added. This commit is the direct base for the
+`1.0.0-rc.1` metadata change.
+
 The beta.3 candidate additionally exercised CiviCRM's bundled
 `setting-admin@1.1.1` mixin on CiviCRM 6.19.5. The generated generic settings
 route and extension-specific permission were present, no database upgrade was
@@ -127,6 +132,6 @@ policy and the consequences of a compromised discovery document.
 
 ## Release decision
 
-The current result supports continued test deployment and preparation of a
-beta candidate. It does not satisfy the independent-review gate and must not
-be represented as production approval.
+The current result supports a feature-complete release candidate for isolated
+evaluation and independent review. It does not satisfy the independent-review
+gate and must not be represented as production approval.
