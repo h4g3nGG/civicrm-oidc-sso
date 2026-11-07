@@ -8,6 +8,11 @@ application. Never use production identities or contacts.
 
 The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
 
+- the exact published `0.3.0-beta.2` archive was checksum-verified, validated,
+  installed and discovered as version `0.3.0-beta.2`; no extension database
+  upgrade was pending, both application containers remained healthy and the
+  protected login entry point redirected to the configured OpenID Provider;
+
 - a new OIDC subject completed provider password and MFA authentication, was
   provisioned once and reached the CiviCRM home page;
 - an allow-listed staff group assigned only the configured staff role;

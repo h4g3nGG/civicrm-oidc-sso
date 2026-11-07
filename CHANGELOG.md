@@ -5,6 +5,11 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+### Documentation
+
+- Align the migration, CI and verification documentation with the published
+  `0.3.0-beta.2` evaluation release.
+
 ## 0.3.0-beta.2 - 2026-11-07
 
 Packaging correction for the public beta. Use this release instead of
