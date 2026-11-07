@@ -1,0 +1,83 @@
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: e2e-root-only
+      MARIADB_DATABASE: civicrm
+      MARIADB_USER: civicrm
+      MARIADB_PASSWORD: e2e-database-only
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      timeout: 2s
+      retries: 60
+    networks: [e2e]
+
+  app:
+    image: civicrm/civicrm:6.19.5-php8.3
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      CIVICRM_DB_HOST: db
+      CIVICRM_DB_PORT: 3306
+      CIVICRM_DB_NAME: civicrm
+      CIVICRM_DB_USER: civicrm
+      CIVICRM_DB_PASSWORD: e2e-database-only
+      CIVICRM_UF_BASEURL: https://civicrm
+      SSL_CERT_FILE: /run/e2e-tls/ca.crt
+      CURL_CA_BUNDLE: /run/e2e-tls/ca.crt
+    volumes:
+      - private:/var/www/html/private
+      - public:/var/www/html/public
+      - extensions:/var/www/html/ext
+      - ${E2E_RELEASE_ARCHIVE:?set E2E_RELEASE_ARCHIVE}:/run/e2e/oidc_sso.tar.gz:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/tls/ca.crt:/run/e2e-tls/ca.crt:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/secrets:/run/e2e-secrets:ro
+    networks: [e2e]
+
+  civicrm:
+    image: caddy:2.10.2-alpine
+    depends_on: [app]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/tls/server.crt:/run/e2e-tls/server.crt:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/tls/server.key:/run/e2e-tls/server.key:ro
+    networks: [e2e]
+
+  oidc:
+    image: ghcr.io/navikt/mock-oauth2-server:6.1.4
+    environment:
+      JSON_CONFIG_PATH: /app/config.json
+      SERVER_PORT: 8080
+      LOG_LEVEL: INFO
+    volumes:
+      - ./mock-oauth2-config.json:/app/config.json:ro
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/tls/server.p12:/run/e2e-tls/server.p12:ro
+    healthcheck:
+      test: ["CMD", "wget", "--no-check-certificate", "--spider", "https://localhost:8080/isalive"]
+      interval: 2s
+      timeout: 2s
+      retries: 60
+    networks: [e2e]
+
+  browser:
+    image: mcr.microsoft.com/playwright:v1.65.0-noble
+    working_dir: /work
+    environment:
+      CI: "true"
+    volumes:
+      - ./browser:/source:ro
+      - browser_work:/work
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/browser-results:/results
+    networks: [e2e]
+
+volumes:
+  private:
+  public:
+  extensions:
+  browser_work:
+
+networks:
+  e2e:
+    driver: bridge

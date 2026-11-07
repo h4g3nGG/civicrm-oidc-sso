@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+### Added
+
+- Add an isolated Docker and Playwright full-stack test for signed OIDC login,
+  just-in-time provisioning, explicit group mapping, managed-role removal,
+  denial and audit-chain verification.
+
 ## 0.3.0-beta.4 - 2026-11-07
 
 Public evaluation correction for the standard settings form. This release is

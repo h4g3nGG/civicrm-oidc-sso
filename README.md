@@ -387,6 +387,11 @@ identity-provider protection at the reverse proxy, a CiviCRM login/session and
 disabled self-registration. Development and test status are never grounds for
 anonymous access. See [Security policy](SECURITY.md).
 
+GitHub CI also runs an isolated browser-level stack using the official CiviCRM
+image, MariaDB, a pinned mock OpenID Provider and Playwright. It publishes no
+host ports, generates a short-lived test CA and secrets for each run, verifies
+signed tokens through discovery and JWKS, and destroys its volumes afterward.
+
 The extension uses the current civix extension format, the documented
 `AutomaticUpgrader`, `entity-types-php` and `setting-php` mixins, and CiviCRM's
 credential cryptography service. Remote OpenID Connect endpoints are accessed

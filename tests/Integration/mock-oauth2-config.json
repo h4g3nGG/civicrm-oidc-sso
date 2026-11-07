@@ -1,0 +1,65 @@
+{
+  "interactiveLogin": true,
+  "httpServer": {
+    "type": "NettyWrapper",
+    "ssl": {
+      "keyPassword": "e2e-keystore-only",
+      "keystoreFile": "/run/e2e-tls/server.p12",
+      "keystoreType": "PKCS12",
+      "keystorePassword": "e2e-keystore-only"
+    }
+  },
+  "tokenCallbacks": [
+    {
+      "issuerId": "e2e",
+      "tokenExpiry": 120,
+      "requestMappings": [
+        {
+          "requestParam": "subject",
+          "match": "staff",
+          "claims": {
+            "sub": "e2e-staff-subject",
+            "aud": ["civicrm-e2e"],
+            "email": "staff@example.test",
+            "email_verified": true,
+            "preferred_username": "e2e.staff",
+            "name": "E2E Staff User",
+            "given_name": "E2E",
+            "family_name": "Staff",
+            "groups": ["e2e.staff"]
+          }
+        },
+        {
+          "requestParam": "subject",
+          "match": "staff-without-role",
+          "claims": {
+            "sub": "e2e-staff-subject",
+            "aud": ["civicrm-e2e"],
+            "email": "staff@example.test",
+            "email_verified": true,
+            "preferred_username": "e2e.staff",
+            "name": "E2E Staff User",
+            "given_name": "E2E",
+            "family_name": "Staff",
+            "groups": ["e2e.unmapped"]
+          }
+        },
+        {
+          "requestParam": "subject",
+          "match": "unmapped",
+          "claims": {
+            "sub": "e2e-unmapped-subject",
+            "aud": ["civicrm-e2e"],
+            "email": "unmapped@example.test",
+            "email_verified": true,
+            "preferred_username": "e2e.unmapped",
+            "name": "E2E Unmapped User",
+            "given_name": "E2E",
+            "family_name": "Unmapped",
+            "groups": ["e2e.unmapped"]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -39,3 +39,25 @@ jobs:
         run: sh scripts/build-release.sh /tmp/civicrm-oidc-sso.tar.gz
       - name: Verify release archive
         run: sh scripts/validate-release-archive.sh /tmp/civicrm-oidc-sso.tar.gz
+
+  full-stack:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+      - name: Run isolated OIDC browser flow
+        run: sh tests/Integration/run.sh
+      - name: Retain diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: full-stack-diagnostics
+          path: |
+            .e2e-runtime/compose.log
+            .e2e-runtime/browser-results/
+          if-no-files-found: ignore
+          retention-days: 7
