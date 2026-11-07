@@ -11,12 +11,20 @@ All notable changes to this project are documented in this file. Versions use
   just-in-time provisioning, explicit group mapping, managed-role removal,
   denial, existing-user migration with profile/manual-role preservation and
   audit-chain verification.
+- Add a separate isolated browser test against Authentik 2026.8.5 configured
+  through an atomic file-based Blueprint with an explicitly restricted
+  Authorization Code grant and a test-owned verified email claim.
 
 ### Documentation
 
 - Record the merged full-stack CI evidence and remove the completed automated
   browser-test gate while retaining independent review as a stable-release
   requirement.
+
+### Changed
+
+- Classify callback rejections into controlled audit reason codes for safer
+  operational diagnosis without logging token, claim or exception contents.
 
 ## 0.3.0-beta.4 - 2026-11-07
 

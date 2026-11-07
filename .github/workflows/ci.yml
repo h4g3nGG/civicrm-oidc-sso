@@ -61,3 +61,16 @@ jobs:
             .e2e-runtime/browser-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  authentik-full-stack:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+      - name: Run isolated Authentik OIDC browser flow
+        run: sh tests/AuthentikIntegration/run.sh
