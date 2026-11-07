@@ -41,7 +41,7 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
 - all temporary provider users, local users, contacts, identity links, managed
   roles and protected migration manifests were removed after verification.
 
-## Required checks before a beta release
+## Required checks before every prerelease or stable release
 
 - Verify the audit chain before and after every lifecycle test.
 - Obtain an independent security review of protocol validation, account
