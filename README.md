@@ -11,6 +11,18 @@ claims to existing CiviCRM roles without modifying CiviCRM core.
 > security review. See the
 > [changelog](CHANGELOG.md) for release scope and known limitations.
 
+## Supported platform
+
+The supported target for version 1.0 is **CiviCRM Standalone only**, beginning
+with CiviCRM 6.19 and PHP 8.1 through 8.5. Drupal, WordPress, Joomla and
+Backdrop deployments are outside the supported and tested scope. The extension
+does not claim compatibility with those CMS integrations.
+
+CiviCRM's documented extension metadata has no field for restricting a native
+extension to one user framework. Administrators must therefore verify the
+Standalone requirement before installation. The extension deliberately avoids
+an installation guard based on undocumented CiviCRM internals.
+
 ## Origin and support
 
 This extension was originally developed for the
@@ -51,8 +63,10 @@ credentials, personal data or internal deployment details in a public issue.
 - Treating an email address as a permanent identity key.
 - Replacing the identity provider's access policies or multi-factor
   authentication.
+- Supporting CiviCRM installations embedded in Drupal, WordPress, Joomla or
+  Backdrop for version 1.0.
 
-## Planned login flow
+## Login flow
 
 1. CiviCRM redirects an unauthenticated browser to the configured OpenID
    Provider using Authorization Code Flow with PKCE.
@@ -106,9 +120,10 @@ address. They must be linked explicitly before cutover; see
 
 ## Installation
 
-The extension currently targets CiviCRM 6.19 or newer on Standalone and PHP
-8.1 through 8.5. It is a beta evaluation release; install and validate it only
-in a separate test system. It is not approved for a production rollout.
+The extension targets CiviCRM 6.19 or newer on Standalone and PHP 8.1 through
+8.5. Other user frameworks are unsupported. It is a beta evaluation release;
+install and validate it only in a separate test system. It is not approved for
+a production rollout.
 
 1. Build or download a release archive whose top-level directory is
    `oidc_sso/`.

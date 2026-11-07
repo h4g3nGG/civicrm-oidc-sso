@@ -16,9 +16,14 @@ pre-release project does not currently promise a response or remediation SLA.
 Supported stable release lines will be listed here before the first stable
 release.
 
+Security support applies only to CiviCRM Standalone. Reports involving Drupal,
+WordPress, Joomla or Backdrop integrations are welcome as information but are
+outside the supported 1.0 compatibility boundary.
+
 | Version | Security support | Production status |
 | --- | --- | --- |
-| `main` / `0.3.0-beta.4` | Best-effort beta fixes | Not approved |
+| `main` / `0.3.0-beta.6` candidate | Best-effort beta fixes | Not approved |
+| `0.3.0-beta.4` | Superseded evaluation build | Not approved |
 | `0.3.0-beta.3` | Superseded evaluation build | Not approved |
 | `0.3.0-beta.2` | Superseded evaluation build | Not approved |
 | `0.2.0-alpha.1` | Superseded evaluation build | Not approved |
