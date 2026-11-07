@@ -4,12 +4,22 @@ This project handles authentication and authorization. Until a release is
 explicitly marked stable, it must be treated as development software and must
 not be deployed in production.
 
-Please report suspected vulnerabilities privately to the repository owner.
-Do not open a public issue containing tokens, credentials, personal data,
-internal hostnames or exploit details.
+Please report suspected vulnerabilities privately to
+`civicrm-oidc-sso@whatchamacallit.xyz`. Include the affected version, a concise
+impact assessment and safe reproduction steps. Do not send live credentials,
+tokens, personal data or unredacted production logs. Do not open a public issue
+containing tokens, credentials, personal data, internal hostnames or exploit
+details.
 
-Supported releases and a dedicated security contact will be published before
-the first stable release.
+Receipt will be acknowledged when reasonably possible, but this volunteer
+pre-release project does not currently promise a response or remediation SLA.
+Supported stable release lines will be listed here before the first stable
+release.
+
+| Version | Security support | Production status |
+| --- | --- | --- |
+| `main` / `0.3.0-dev` | Best-effort development fixes | Not approved |
+| `0.2.0-alpha.1` | Superseded evaluation build | Not approved |
 
 ## Test and CI deployments
 

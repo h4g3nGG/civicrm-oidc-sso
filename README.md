@@ -17,6 +17,10 @@ project useful and would like to say thank you, a
 [donation to the hospice via PayPal](https://www.paypal.com/donate/?hosted_button_id=NHAECADL3F3E8)
 is warmly appreciated.
 
+For technical help, see [Support](SUPPORT.md). Report suspected vulnerabilities
+privately according to the [Security policy](SECURITY.md); never place tokens,
+credentials, personal data or internal deployment details in a public issue.
+
 ## Goals
 
 - Authorization Code Flow with PKCE.

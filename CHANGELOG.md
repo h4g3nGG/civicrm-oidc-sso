@@ -19,6 +19,8 @@ All notable changes to this project are documented in this file. Versions use
   manual findings and explicit remaining release gates.
 - A GitHub Actions matrix and canonical GitHub publication links while
   retaining the original Gitea repository as a development mirror.
+- Public security and support contacts, contribution guidance, issue forms,
+  a pull-request checklist and a project code of conduct.
 
 ### Fixed
 

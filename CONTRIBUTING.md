@@ -11,3 +11,8 @@ into a stable release without a documented compatibility strategy.
 
 All contributions are licensed under `AGPL-3.0-or-later`.
 
+By participating, contributors agree to follow the
+[Code of conduct](CODE_OF_CONDUCT.md). Suspected vulnerabilities must be sent
+privately as described in [SECURITY.md](SECURITY.md), not submitted as public
+issues or pull requests.
+
