@@ -11,6 +11,12 @@ All notable changes to this project are documented in this file. Versions use
   just-in-time provisioning, explicit group mapping, managed-role removal,
   denial and audit-chain verification.
 
+### Documentation
+
+- Record the merged full-stack CI evidence and remove the completed automated
+  browser-test gate while retaining independent review as a stable-release
+  requirement.
+
 ## 0.3.0-beta.4 - 2026-11-07
 
 Public evaluation correction for the standard settings form. This release is

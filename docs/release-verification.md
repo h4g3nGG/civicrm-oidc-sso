@@ -8,6 +8,15 @@ application. Never use production identities or contacts.
 
 The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
 
+- merged `main` CI run `42374151310` built an isolated Docker network with no
+  published host ports and completed the browser-level signed OIDC flow;
+- the automated flow provisioned one authorized user exactly once, assigned
+  the configured role, removed that extension-managed role after the same
+  subject returned without a mapped group, and denied a distinct unmapped
+  subject;
+- the automated postconditions found no duplicate user or contact and
+  verified the final HMAC audit chain;
+
 - the exact published `0.3.0-beta.2` archive was checksum-verified, validated,
   installed and discovered as version `0.3.0-beta.2`; no extension database
   upgrade was pending, both application containers remained healthy and the
