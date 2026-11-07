@@ -29,6 +29,15 @@ final class CallbackFailureClassifierTest extends TestCase
         self::assertSame('provider_http_failed', $classifier->classify(
             new OidcValidationException('OpenID Connect HTTP request failed.')
         ));
+        self::assertSame('identity_claims_failed', $classifier->classify(
+            new OidcValidationException('OIDC email address must be verified before provisioning.')
+        ));
+        self::assertSame('authorization_claims_failed', $classifier->classify(
+            new OidcValidationException('OIDC identity has no explicitly mapped local role.')
+        ));
+        self::assertSame('authorization_response_failed', $classifier->classify(
+            new OidcValidationException('The OpenID Provider rejected the login request.')
+        ));
         self::assertSame('protocol_validation_failed', $classifier->classify(
             new OidcValidationException('Unclassified controlled validation failure.')
         ));

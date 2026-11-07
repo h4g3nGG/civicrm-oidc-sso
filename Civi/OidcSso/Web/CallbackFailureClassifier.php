@@ -34,6 +34,15 @@ final class CallbackFailureClassifier
                 str_starts_with($message, 'OpenID Connect HTTP'),
                 str_starts_with($message, 'OpenID Connect JSON'),
                 str_starts_with($message, 'OpenID Connect endpoint') => 'provider_http_failed',
+                str_starts_with($message, 'OIDC email'),
+                str_starts_with($message, 'OIDC preferred username'),
+                str_starts_with($message, 'OIDC profile'),
+                str_starts_with($message, 'OIDC claim') => 'identity_claims_failed',
+                str_starts_with($message, 'Configured OIDC group'),
+                str_starts_with($message, 'OIDC group'),
+                str_starts_with($message, 'OIDC identity has no') => 'authorization_claims_failed',
+                str_starts_with($message, 'The OpenID Provider rejected'),
+                str_starts_with($message, 'OIDC callback does not') => 'authorization_response_failed',
                 default => 'protocol_validation_failed',
             };
         }

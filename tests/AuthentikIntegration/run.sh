@@ -59,6 +59,8 @@ if ! $compose run --rm browser sh -lc \
       "runtime_failure", "unexpected_failure", "token_endpoint_failed",
       "token_signature_failed", "token_claims_failed",
       "transaction_validation_failed", "provider_http_failed",
+      "identity_claims_failed", "authorization_claims_failed",
+      "authorization_response_failed",
     ];
     echo is_string($reason) && in_array($reason, $allowed, true)
       ? $reason : "unavailable", PHP_EOL;
