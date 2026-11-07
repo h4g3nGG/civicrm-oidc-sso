@@ -63,20 +63,20 @@ services:
 
   browser:
     image: mcr.microsoft.com/playwright:v1.65.0-noble
-    working_dir: /tests
+    working_dir: /work
     environment:
       CI: "true"
     volumes:
-      - ./browser:/tests:ro
-      - browser_modules:/tests/node_modules
-      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/browser-results:/tests/test-results
+      - ./browser:/source:ro
+      - browser_work:/work
+      - ${E2E_RUNTIME_DIR:?set E2E_RUNTIME_DIR}/browser-results:/results
     networks: [e2e]
 
 volumes:
   private:
   public:
   extensions:
-  browser_modules:
+  browser_work:
 
 networks:
   e2e:

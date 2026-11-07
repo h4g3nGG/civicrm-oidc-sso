@@ -24,6 +24,6 @@ fi
 
 $compose up -d db oidc app civicrm
 sh tests/Integration/setup-civicrm.sh
-$compose run --rm browser sh -lc 'npm ci && npx playwright test'
+$compose run --rm browser sh -lc 'cp -R /source/. /work/ && npm ci && npx playwright test'
 sh tests/Integration/verify-civicrm.sh
 printf '%s\n' 'FULL STACK E2E OK'

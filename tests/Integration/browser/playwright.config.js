@@ -7,7 +7,7 @@ module.exports = defineConfig({
   workers: 1,
   retries: 0,
   reporter: 'line',
-  outputDir: '/tests/test-results',
+  outputDir: '/results',
   use: {
     baseURL: 'https://civicrm',
     ignoreHTTPSErrors: true,
