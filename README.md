@@ -160,6 +160,10 @@ bootstrapped CiviCRM CLI with:
 cv scr /path/to/oidc_sso/scripts/verify-audit-log.php
 ```
 
+The optional local-user number stored with an event is an immutable audit
+reference rather than a database foreign key. Deleting a local account
+therefore does not rewrite historical events or invalidate their HMAC chain.
+
 The chain is tamper-evident, not immutable. For stronger assurance, retain the
 reported head hash periodically in an independently protected system.
 

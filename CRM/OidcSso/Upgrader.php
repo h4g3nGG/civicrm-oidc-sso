@@ -28,6 +28,31 @@ final class CRM_OidcSso_Upgrader extends \CRM_Extension_Upgrader_Base {
     return $helper->createEntityTable('upgrade/schema/1002_OidcSsoAuditEvent.entityType.php');
   }
 
+  /**
+   * Make audit user references immutable when a local account is deleted.
+   */
+  public function upgrade_1003(): bool {
+    $this->ctx->log->info('Removing the mutable audit user foreign key.');
+    $dao = \CRM_Core_DAO::executeQuery(
+      "SELECT CONSTRAINT_NAME FROM information_schema.KEY_COLUMN_USAGE
+       WHERE TABLE_SCHEMA = DATABASE()
+         AND TABLE_NAME = 'civicrm_oidc_sso_audit_event'
+         AND COLUMN_NAME = 'uf_match_id'
+         AND REFERENCED_TABLE_NAME IS NOT NULL"
+    );
+    while ($dao->fetch()) {
+      $constraint = (string) $dao->CONSTRAINT_NAME;
+      if (preg_match('/^[A-Za-z0-9_]+$/D', $constraint) !== 1) {
+        throw new \RuntimeException('Unsafe audit foreign-key identifier.');
+      }
+      \CRM_Core_DAO::executeQuery(
+        'ALTER TABLE civicrm_oidc_sso_audit_event DROP FOREIGN KEY `' . $constraint . '`'
+      );
+    }
+    $dao->free();
+    return TRUE;
+  }
+
   // By convention, functions that look like "function upgrade_NNNN()" are
   // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
 

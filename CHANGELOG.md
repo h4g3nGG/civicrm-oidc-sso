@@ -14,6 +14,12 @@ All notable changes to this project are documented in this file. Versions use
 - A separate file-based audit HMAC key.
 - Complete Extension Directory metadata and CI manifest validation.
 
+### Fixed
+
+- Keep the audit log's local-user reference immutable when the corresponding
+  CiviCRM account is deleted, so account lifecycle cleanup cannot invalidate
+  the HMAC chain.
+
 ## 0.2.0-alpha.1 - 2026-11-06
 
 First public evaluation release.

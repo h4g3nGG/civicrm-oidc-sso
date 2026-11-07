@@ -16,7 +16,9 @@ return [
         'occurred_at' => ['title' => 'Occurred At', 'sql_type' => 'datetime', 'input_type' => 'Select Date', 'required' => true],
         'event_type' => ['title' => 'Event Type', 'sql_type' => 'varchar(64)', 'input_type' => 'Text', 'required' => true],
         'outcome' => ['title' => 'Outcome', 'sql_type' => 'varchar(64)', 'input_type' => 'Text', 'required' => true],
-        'uf_match_id' => ['title' => 'User Framework Match', 'sql_type' => 'int unsigned', 'input_type' => 'EntityRef', 'required' => false, 'entity_reference' => ['entity' => 'UFMatch', 'key' => 'id', 'on_delete' => 'SET NULL']],
+        // Deliberately not a foreign key: deleting a local user must not
+        // mutate an already-HMACed historical event.
+        'uf_match_id' => ['title' => 'Local User Reference', 'sql_type' => 'int unsigned', 'input_type' => 'Number', 'required' => false],
         'details_json' => ['title' => 'Details', 'sql_type' => 'varchar(1024)', 'input_type' => 'Text', 'required' => true],
         'previous_hash' => ['title' => 'Previous Hash', 'sql_type' => 'char(64)', 'input_type' => 'Text', 'required' => true],
         'event_hash' => ['title' => 'Event Hash', 'sql_type' => 'char(64)', 'input_type' => 'Text', 'required' => true],

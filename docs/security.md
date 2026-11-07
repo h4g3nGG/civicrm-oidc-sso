@@ -71,6 +71,10 @@ concurrent logins. The separate audit key is read from a protected file and
 must not be stored with the database. The CLI verifier detects modification,
 deletion and reordering when the attacker does not possess that key.
 
+The optional local-user number is stored as an immutable audit reference, not
+as a foreign key. Local account deletion cannot rewrite that historical value
+and consequently cannot invalidate the HMAC chain.
+
 This is application-level tamper evidence, not immutable or externally
 anchored logging. An attacker with both database write access and the audit key
 can rebuild the chain. Deployments needing stronger evidence should export

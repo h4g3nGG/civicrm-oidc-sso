@@ -48,6 +48,15 @@ final class ExtensionManifestTest extends TestCase
         self::assertStringContainsString('function upgrade_1002()', $upgrader);
         self::assertStringContainsString('1002_OidcSsoAuditHead.entityType.php', $upgrader);
         self::assertStringContainsString('1002_OidcSsoAuditEvent.entityType.php', $upgrader);
+        self::assertStringContainsString('function upgrade_1003()', $upgrader);
+        self::assertStringContainsString('DROP FOREIGN KEY', $upgrader);
+    }
+
+    public function testAuditUserReferenceIsNotMutableThroughAForeignKey(): void
+    {
+        $schema = (string) file_get_contents(__DIR__ . '/../../schema/OidcSsoAuditEvent.entityType.php');
+        self::assertStringContainsString("'title' => 'Local User Reference'", $schema);
+        self::assertStringNotContainsString("'entity_reference'", $schema);
     }
 
     public function testManagedRoleUpgradeSchemaMatchesCurrentSchema(): void
