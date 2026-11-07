@@ -5,6 +5,11 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+### Fixed
+
+- Normalize role mappings stored as arrays by the Settings API to canonical
+  JSON before rendering the standard text-based administration form.
+
 ## 0.3.0-beta.3 - 2026-11-07
 
 Public evaluation update adding standard administration for non-secret OIDC

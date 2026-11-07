@@ -53,6 +53,21 @@ final class CRM_OidcSso_Upgrader extends \CRM_Extension_Upgrader_Base {
     return TRUE;
   }
 
+  /**
+   * Normalize API-created role mappings for the standard settings form.
+   */
+  public function upgrade_1004(): bool {
+    $value = \Civi::settings()->get('oidc_sso_role_mapping');
+    if (is_array($value)) {
+      $this->ctx->log->info('Normalizing the OIDC role mapping to canonical JSON.');
+      \Civi::settings()->set(
+        'oidc_sso_role_mapping',
+        \Civi\OidcSso\Civi\RoleMappingSetting::canonicalJson($value)
+      );
+    }
+    return TRUE;
+  }
+
   // By convention, functions that look like "function upgrade_NNNN()" are
   // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
 

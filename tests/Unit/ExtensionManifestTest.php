@@ -65,6 +65,8 @@ final class ExtensionManifestTest extends TestCase
         self::assertStringContainsString('1002_OidcSsoAuditEvent.entityType.php', $upgrader);
         self::assertStringContainsString('function upgrade_1003()', $upgrader);
         self::assertStringContainsString('DROP FOREIGN KEY', $upgrader);
+        self::assertStringContainsString('function upgrade_1004()', $upgrader);
+        self::assertStringContainsString('RoleMappingSetting::canonicalJson', $upgrader);
     }
 
     public function testAuditUserReferenceIsNotMutableThroughAForeignKey(): void
