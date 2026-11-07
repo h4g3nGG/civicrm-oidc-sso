@@ -233,7 +233,8 @@ may differ between Authentik releases.
 1. In Authentik, create an **OAuth2/OpenID Provider** for CiviCRM.
 2. Use a confidential client, Authorization Code flow, PKCE method `S256`, and
    an asymmetric signing key with `RS256`. Do not enable implicit or password
-   grants.
+   grants. On Authentik releases which expose an explicit **Grant types** list,
+   enable `authorization_code`; an empty list does not permit this flow.
 3. Register only the exact callback URL
    `https://crm.example.org/civicrm/oidc/callback`.
 4. Copy the provider's client ID and exact issuer URL into the corresponding
