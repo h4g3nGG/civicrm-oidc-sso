@@ -32,5 +32,6 @@ openssl pkcs12 -export \
 printf '%s\n' 'e2e-client-secret' > "$runtime/secrets/client_secret"
 openssl rand -base64 48 > "$runtime/secrets/transaction_key"
 openssl rand -base64 48 > "$runtime/secrets/audit_key"
+chmod 0555 "$runtime/secrets"
 chmod 0444 "$runtime/tls/ca.crt" "$runtime/tls/server.crt" \
   "$runtime/tls/server.key" "$runtime/tls/server.p12" "$runtime/secrets/"*
