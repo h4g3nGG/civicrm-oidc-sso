@@ -1,7 +1,7 @@
 # Internal pre-release security review
 
 This document records the maintainer's internal review through release
-`0.3.0-beta.3` on 2026-11-07. It is evidence for release preparation, not an
+`0.3.0-beta.4` on 2026-11-07. It is evidence for release preparation, not an
 independent security assessment and not production approval.
 
 ## Scope
@@ -39,6 +39,12 @@ The beta.3 candidate additionally exercised CiviCRM's bundled
 `setting-admin@1.1.1` mixin on CiviCRM 6.19.5. The generated generic settings
 route and extension-specific permission were present, no database upgrade was
 pending and the audit chain remained valid.
+
+The beta.4 candidate migrated an API-created array role mapping to canonical
+JSON without changing any group or role ID. The generated settings form then
+rendered successfully with both the CiviCRM `default` theme (resolved to
+Greenwich) and a dark third-party theme. The test system was returned to
+`default` after the visual checks.
 
 ## Manual findings
 

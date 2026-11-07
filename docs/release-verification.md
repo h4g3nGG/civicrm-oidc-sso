@@ -16,6 +16,10 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
   `civicrm/admin/setting/oidc_sso` route through `CRM_Admin_Form_Generic` and
   exposed the extension-specific `administer oidc_sso` permission through
   APIv4 without placing secret values on the form;
+- the beta.4 candidate preserved the existing group-to-role mapping while
+  converting its Settings API array value to canonical JSON, rendered the
+  settings form without a PHP type error, and retained readable contrast in
+  CiviCRM's `default`/Greenwich theme and a dark third-party theme;
 
 - a new OIDC subject completed provider password and MFA authentication, was
   provisioned once and reached the CiviCRM home page;
