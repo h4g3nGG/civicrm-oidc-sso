@@ -1,0 +1,4 @@
+https://civicrm {
+  tls /run/e2e-tls/server.crt /run/e2e-tls/server.key
+  reverse_proxy app:80
+}
