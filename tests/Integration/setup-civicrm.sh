@@ -45,3 +45,14 @@ $compose exec -T -u www-data app cv ev '
   }
 ' --cwd=/var/www/html
 $compose exec -T -u www-data app cv flush --cwd=/var/www/html
+$compose exec -T -u www-data app cv ev '
+  $url = Civi\OidcSso\Civi\CiviServiceFactory::loginStart()->start(
+    "/civicrm/home",
+    str_repeat("a", 43),
+    time()
+  );
+  if (!str_starts_with($url, "https://oidc:8080/e2e/authorize?")) {
+    throw new RuntimeException("OIDC preflight returned an unexpected authorization URL.");
+  }
+  echo "OIDC PREFLIGHT OK\n";
+' --cwd=/var/www/html
