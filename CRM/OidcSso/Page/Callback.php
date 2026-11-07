@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Civi\OidcSso\Civi\CiviServiceFactory;
 use Civi\OidcSso\Audit\AuditEvent;
+use Civi\OidcSso\Web\CallbackFailureClassifier;
 
 final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
 {
@@ -42,7 +43,7 @@ final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
                     AuditEvent::AUTHENTICATION,
                     AuditEvent::REJECTED,
                     null,
-                    ['reason_code' => $this->reasonCode($exception)],
+                    ['reason_code' => (new CallbackFailureClassifier())->classify($exception)],
                 );
             } catch (Throwable $auditException) {
                 Civi::log()->error('OpenID Connect audit write failed ({exception_class}).', [
@@ -56,16 +57,6 @@ final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
             return;
         }
         CRM_Utils_System::redirect($redirect);
-    }
-
-    private function reasonCode(Throwable $exception): string
-    {
-        return match (true) {
-            $exception instanceof \Civi\OidcSso\Exception\OidcValidationException => 'protocol_validation_failed',
-            $exception instanceof InvalidArgumentException => 'invalid_request',
-            $exception instanceof RuntimeException => 'runtime_failure',
-            default => 'unexpected_failure',
-        };
     }
 
     private function requiredQueryString(string $name): string

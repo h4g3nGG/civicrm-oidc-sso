@@ -56,7 +56,9 @@ if ! $compose run --rm browser sh -lc \
     $reason = is_array($details) ? ($details["reason_code"] ?? null) : null;
     $allowed = [
       "protocol_validation_failed", "invalid_request",
-      "runtime_failure", "unexpected_failure",
+      "runtime_failure", "unexpected_failure", "token_endpoint_failed",
+      "token_signature_failed", "token_claims_failed",
+      "transaction_validation_failed", "provider_http_failed",
     ];
     echo is_string($reason) && in_array($reason, $allowed, true)
       ? $reason : "unavailable", PHP_EOL;

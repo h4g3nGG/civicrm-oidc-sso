@@ -21,6 +21,11 @@ All notable changes to this project are documented in this file. Versions use
   browser-test gate while retaining independent review as a stable-release
   requirement.
 
+### Changed
+
+- Classify callback rejections into controlled audit reason codes for safer
+  operational diagnosis without logging token, claim or exception contents.
+
 ## 0.3.0-beta.4 - 2026-11-07
 
 Public evaluation correction for the standard settings form. This release is
