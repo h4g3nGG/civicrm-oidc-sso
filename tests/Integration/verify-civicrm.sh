@@ -68,11 +68,11 @@ $compose exec -T -u www-data app cv ev '
   ) {
     throw new RuntimeException("Migrated contact identity or profile changed.");
   }
-  $identities = civicrm_api4("OidcSsoExternalIdentity", "get", [
-    "checkPermissions" => false,
-    "where" => [["uf_match_id", "=", $baseline["user_id"]]],
-  ]);
-  if (count($identities) !== 1) {
+  $identityCount = CRM_Core_DAO::singleValueQuery(
+    "SELECT COUNT(*) FROM civicrm_oidc_sso_identity WHERE uf_match_id = %1",
+    [1 => [$baseline["user_id"], "Integer"]]
+  );
+  if ((int) $identityCount !== 1) {
     throw new RuntimeException("Migrated user identity link is missing or duplicated.");
   }
   echo "E2E MIGRATION STATE OK", PHP_EOL;
