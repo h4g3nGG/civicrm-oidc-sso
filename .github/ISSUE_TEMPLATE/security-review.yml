@@ -1,0 +1,42 @@
+name: Independent security review
+description: Coordinate a non-sensitive review, sponsorship or scope question
+title: "Security review: "
+labels:
+  - security-review
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only for non-sensitive coordination. Do not post vulnerabilities, exploit details, credentials, tokens, claims, personal data or internal deployment information. Report suspected vulnerabilities privately according to SECURITY.md.
+  - type: dropdown
+    id: offer
+    attributes:
+      label: Type of coordination
+      options:
+        - Independent review offer
+        - Review sponsorship or funding
+        - Non-sensitive scope question
+        - Retest coordination
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: Reviewer or sponsor background
+      description: Summarize relevant OAuth, OpenID Connect, PHP or CiviCRM experience without sharing sensitive information.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed contribution
+      description: Describe the proposed scope, availability, funding or non-sensitive question. Review docs/security-review-scope.md first.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safe disclosure
+      options:
+        - label: I have not included vulnerability details, secrets, tokens, claims, personal data or internal deployment information.
+          required: true

@@ -11,6 +11,14 @@ claims to existing CiviCRM roles without modifying CiviCRM core.
 > security review. See the
 > [changelog](CHANGELOG.md) for release scope and known limitations.
 
+> **Independent security review requested:** The implementation is feature
+> complete for its intended CiviCRM Standalone scope, but it has not yet
+> received an independent security assessment. Do not use it in production
+> until its OIDC protocol handling, account linking, role reconciliation and
+> deployment guidance have been independently reviewed. Qualified reviewers
+> are invited to read the [public review scope](docs/security-review-scope.md)
+> and contact the maintainer privately.
+
 ## Supported platform
 
 The supported target for version 1.0 is **CiviCRM Standalone only**, beginning
