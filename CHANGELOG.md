@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+## 0.3.0-beta.4 - 2026-11-07
+
+Public evaluation correction for the standard settings form. This release is
+not approved for production use and has not completed an independent security
+review.
+
 ### Fixed
 
 - Normalize role mappings stored as arrays by the Settings API to canonical
