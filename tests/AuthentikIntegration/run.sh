@@ -38,7 +38,12 @@ until $compose exec -T gateway wget -q --no-check-certificate -O /dev/null \
   sleep 2
 done
 sh tests/AuthentikIntegration/setup-civicrm.sh
-$compose run --rm browser sh -lc \
-  'cp -R /source/. /work/ && cp /authentik-flow.spec.js /work/ && npm ci && npx playwright test'
+if ! $compose run --rm browser sh -lc \
+  'cp -R /source/. /work/ && cp /authentik-flow.spec.js /work/ && npm ci && npx playwright test'; then
+  printf '%s\n' 'Sanitized CiviCRM OIDC start diagnostics:' >&2
+  $compose exec -T app sh -c \
+    'grep -h "OpenID Connect login could not be started" /var/www/html/private/ConfigAndLog/CiviCRM*.log 2>/dev/null | tail -n 3' >&2 || true
+  exit 1
+fi
 sh tests/AuthentikIntegration/verify-civicrm.sh
 printf '%s\n' 'AUTHENTIK FULL STACK E2E OK'
