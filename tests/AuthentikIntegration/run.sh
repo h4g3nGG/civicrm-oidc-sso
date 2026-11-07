@@ -40,10 +40,6 @@ done
 sh tests/AuthentikIntegration/setup-civicrm.sh
 if ! $compose run --rm browser sh -lc \
   'cp -R /source/. /work/ && cp /authentik-flow.spec.js /work/ && npm ci && npx playwright test'; then
-  printf '%s\n' 'Sanitized CiviCRM OIDC start diagnostics:' >&2
-  $compose logs --no-color app 2>/dev/null \
-    | grep "OpenID Connect login could not be started" \
-    | tail -n 3 >&2 || true
   printf '%s\n' 'Controlled callback audit reason:' >&2
   $compose exec -T -u www-data app cv ev '
     $json = CRM_Core_DAO::singleValueQuery(
