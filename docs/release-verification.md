@@ -20,15 +20,18 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
 - migration transferred ownership only for the explicitly approved role;
 - a later unmapped claim was rejected, removed the extension-managed role and
   preserved the independently assigned manual role;
+- an active provider user without any mapped CiviCRM group was denied by the
+  provider application policy and no CiviCRM user, email or session was
+  created;
+- after that provider user was disabled and all provider sessions were
+  revoked, a fresh login was rejected before CiviCRM was reached;
+- the audit chain remained valid after both denial scenarios (18 events, head
+  `26faf7bb55bc3348d54c2ece608ce627583a56e9202b3e8225d819d93cc6118b`);
 - all temporary provider users, local users, contacts, identity links, managed
   roles and protected migration manifests were removed after verification.
 
 ## Required checks before a beta release
 
-- Repeat browser denial with a real active provider user that has no mapped
-  group. Confirm that no CiviCRM session is created.
-- Disable that provider user, revoke its provider sessions and confirm that a
-  new CiviCRM session cannot be created.
 - Test local logout followed by login, provider-session expiry and the
   documented absence of provider-wide single logout.
 - Exercise an administrator-reviewed migration for a pilot account while
