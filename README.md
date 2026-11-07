@@ -393,6 +393,10 @@ GitHub CI also runs an isolated browser-level stack using the official CiviCRM
 image, MariaDB, a pinned mock OpenID Provider and Playwright. It publishes no
 host ports, generates a short-lived test CA and secrets for each run, verifies
 signed tokens through discovery and JWKS, and destroys its volumes afterward.
+The same flow creates a pre-existing local user, proves that migration dry-run
+is non-mutating, applies an explicit protected manifest and verifies through
+browser login that local IDs, profile data and manual roles survive while only
+the transferred OIDC-managed role is later removed.
 
 The extension uses the current civix extension format, the documented
 `AutomaticUpgrader`, `entity-types-php` and `setting-php` mixins, and CiviCRM's

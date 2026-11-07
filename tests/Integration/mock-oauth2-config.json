@@ -58,6 +58,36 @@
             "family_name": "Unmapped",
             "groups": ["e2e.unmapped"]
           }
+        },
+        {
+          "requestParam": "subject",
+          "match": "migrated",
+          "claims": {
+            "sub": "e2e-migrated-subject",
+            "aud": ["civicrm-e2e"],
+            "email": "migrated@example.test",
+            "email_verified": true,
+            "preferred_username": "e2e.migrated",
+            "name": "Existing Local User",
+            "given_name": "Existing",
+            "family_name": "Local",
+            "groups": ["e2e.staff"]
+          }
+        },
+        {
+          "requestParam": "subject",
+          "match": "migrated-without-role",
+          "claims": {
+            "sub": "e2e-migrated-subject",
+            "aud": ["civicrm-e2e"],
+            "email": "migrated@example.test",
+            "email_verified": true,
+            "preferred_username": "e2e.migrated",
+            "name": "Existing Local User",
+            "given_name": "Existing",
+            "family_name": "Local",
+            "groups": ["e2e.unmapped"]
+          }
         }
       ]
     }
