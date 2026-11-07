@@ -1,7 +1,7 @@
 # Internal pre-release security review
 
-This document records the maintainer's internal review through the current
-post-`0.3.0-beta.4` `main` on 2026-11-07. It is evidence for release
+This document records the maintainer's internal review of the
+`0.3.0-beta.5` candidate on 2026-11-07. It is evidence for release
 preparation, not an independent security assessment and not production
 approval.
 
@@ -19,8 +19,8 @@ secret handling, audit integrity, packaging and public-repository hygiene.
 - Direct dependency review found only new major versions of Guzzle, PHPUnit
   and PHP_CodeSniffer; no compatible security or maintenance update was
   pending.
-- PHP_CodeSniffer passed for all 108 scanned files.
-- PHPUnit 10.5.66 passed 130 tests with 290 assertions on PHP 8.5.12.
+- PHP_CodeSniffer passed for all 110 scanned files.
+- PHPUnit 10.5.66 passed 131 tests with 299 assertions on PHP 8.5.12.
 - `scripts/validate-manifest.php` passed.
 - `scripts/build-release.sh` produced a release archive containing the locked
   production dependencies.
@@ -43,6 +43,13 @@ JWKS processing, signed login, JIT provisioning, exact group-to-role mapping,
 managed-role removal, denial of unmapped identities and final audit-chain
 integrity. The stack published no host ports and destroyed its volumes after
 the run.
+
+GitHub Actions run `42387362860` on merged `main` additionally passed the full
+matrix and an isolated browser test against Authentik 2026.8.5. The test used
+an atomic file-based Blueprint, an explicitly restricted Authorization Code
+grant, PKCE S256, a strict redirect URI, asymmetric signed tokens and custom
+verified-email and group claims. It verified JIT provisioning, role assignment
+and audit-chain integrity without publishing host ports or retaining volumes.
 
 The beta.3 candidate additionally exercised CiviCRM's bundled
 `setting-admin@1.1.1` mixin on CiviCRM 6.19.5. The generated generic settings
