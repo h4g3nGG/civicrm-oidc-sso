@@ -90,10 +90,11 @@ The current beta includes tested building blocks for:
 - creating a 60-second CiviCRM-signed JWT for the documented AuthX auto-session
   handoff after authentication and authorization succeed.
 
-The protocol flow, user provisioning, role reconciliation and session handoff
-have automated coverage, but the complete administration UI, auditable
-migration importer and end-to-end browser tests are not yet finished. The
-extension is therefore not ready for production use and must remain disabled.
+The protocol flow, user provisioning, role reconciliation, session handoff and
+auditable dry-run-first migration importer have automated coverage. The web
+administration UI and automated end-to-end browser tests are not yet finished.
+The extension is therefore not ready for production use and must remain
+disabled outside isolated evaluation systems.
 
 Existing local accounts are never claimed automatically by matching an email
 address. They must be linked explicitly before cutover; see
@@ -371,8 +372,8 @@ docker compose run --rm test
 ```
 
 The container installs development dependencies and runs Composer validation,
-the coding standard and the unit test suite. The same checks run in Gitea CI
-for PHP 8.1 through 8.5.
+the coding standard and the unit test suite. The same checks run in GitHub
+Actions and the Gitea mirror for PHP 8.1 through 8.5.
 
 CI jobs which need a real CiviCRM instance must keep it runner-internal or bind
 it only to loopback. Any test instance reachable from another machine requires

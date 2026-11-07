@@ -1,8 +1,9 @@
 # Internal pre-release security review
 
-This document records the maintainer's internal review of commit `bb6ca02`
-on 2026-11-07. It is evidence for release preparation, not an independent
-security assessment and not production approval.
+This document records the maintainer's internal review through commit
+`2673dee` and release `0.3.0-beta.2` on 2026-11-07. It is evidence for release
+preparation, not an independent security assessment and not production
+approval.
 
 ## Scope
 
@@ -23,13 +24,17 @@ secret handling, audit integrity, packaging and public-repository hygiene.
 - `scripts/validate-manifest.php` passed.
 - `scripts/build-release.sh` produced a release archive containing the locked
   production dependencies.
+- Release-archive validation rejected the superseded beta.1 archive's macOS
+  extended attributes and accepted the platform-neutral beta.2 archive. The
+  published beta.2 asset has SHA-256
+  `ef444b95a2825f9dd8caf4e088deb46540c91a038ef72e1cb0a75cd4022fcb78`.
 - The tracked tree and Git history were searched for private keys, bearer
   tokens, credentials, machine-local paths and deployment hostnames. No
   credential or private-key material was found.
 
-The Gitea CI run for the preceding code change also passed the PHP 8.1, 8.2,
-8.3, 8.4 and 8.5 jobs plus the package job. A fresh CI run is required for
-every subsequent release candidate.
+GitHub Actions run `42368536079` passed the PHP 8.1, 8.2, 8.3, 8.4 and 8.5
+jobs plus the package job. A fresh CI run is required for every subsequent
+release candidate.
 
 ## Manual findings
 
