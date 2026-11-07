@@ -59,5 +59,7 @@ jobs:
           tools: composer:v2
           github-token: ''
       - name: Run isolated OIDC browser flow
+        env:
+          COMPOSE_PROJECT_NAME: oidc-sso-ci-${{ gitea.run_id }}
         run: sh tests/Integration/run.sh
 
