@@ -28,4 +28,18 @@ test('provisions, reuses and deauthorizes an OIDC identity', async ({ browser })
   await expect(deniedPage).toHaveURL(/https:\/\/civicrm\/civicrm\/login/);
   await expect(deniedPage.locator('body')).toContainText('OpenID Connect login failed');
   await denied.close();
+
+  const migrated = await browser.newContext({ ignoreHTTPSErrors: true });
+  const migratedPage = await migrated.newPage();
+  await login(migratedPage, 'migrated');
+  await expect(migratedPage).toHaveURL(/https:\/\/civicrm\/civicrm\/home/);
+  await expect(migratedPage.locator('body')).toContainText('CiviCRM');
+  await migrated.close();
+
+  const migratedDeauthorized = await browser.newContext({ ignoreHTTPSErrors: true });
+  const migratedDeniedPage = await migratedDeauthorized.newPage();
+  await login(migratedDeniedPage, 'migrated-without-role');
+  await expect(migratedDeniedPage).toHaveURL(/https:\/\/civicrm\/civicrm\/login/);
+  await expect(migratedDeniedPage.locator('body')).toContainText('OpenID Connect login failed');
+  await migratedDeauthorized.close();
 });

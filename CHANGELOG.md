@@ -9,7 +9,8 @@ All notable changes to this project are documented in this file. Versions use
 
 - Add an isolated Docker and Playwright full-stack test for signed OIDC login,
   just-in-time provisioning, explicit group mapping, managed-role removal,
-  denial and audit-chain verification.
+  denial, existing-user migration with profile/manual-role preservation and
+  audit-chain verification.
 
 ### Documentation
 
