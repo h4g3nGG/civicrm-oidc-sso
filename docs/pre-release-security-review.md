@@ -51,6 +51,16 @@ grant, PKCE S256, a strict redirect URI, asymmetric signed tokens and custom
 verified-email and group claims. It verified JIT provisioning, role assignment
 and audit-chain integrity without publishing host ports or retaining volumes.
 
+Self-hosted Gitea Actions runs `262`, `263` and `265` repeated the isolated
+mock-provider full-stack browser flow on three separate runners after the
+browser assertions were changed to wait for a committed CiviCRM document and
+an explicit expected page state. Each run passed provisioning, role
+reconciliation, existing-user migration and HMAC audit verification. Two
+additional attempts (`260` and `264`) ended during Playwright image extraction
+because their runner storage was exhausted; neither reached the application
+test. The runner caches were subsequently pruned without deleting volumes or
+running containers, after which run `265` passed.
+
 The beta.3 candidate additionally exercised CiviCRM's bundled
 `setting-admin@1.1.1` mixin on CiviCRM 6.19.5. The generated generic settings
 route and extension-specific permission were present, no database upgrade was

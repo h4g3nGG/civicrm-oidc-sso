@@ -21,6 +21,13 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
   provider-suffix discovery, Authorization Code with PKCE S256, signed-token
   validation, a verified test-owned email claim, group mapping, JIT
   provisioning, role assignment and final audit verification;
+- Gitea stability runs `262`, `263` and `265` independently repeated the mock
+  full-stack browser flow on three self-hosted runners after hardening the
+  page-readiness assertions. All three runs passed the browser flow, user and
+  role postconditions, existing-user migration checks and final HMAC audit
+  verification. Runs `260` and `264` were excluded as product evidence because
+  their Playwright image extraction stopped with an explicitly diagnosed
+  runner-storage exhaustion before any browser assertion ran;
 
 - the exact published `0.3.0-beta.2` archive was checksum-verified, validated,
   installed and discovered as version `0.3.0-beta.2`; no extension database

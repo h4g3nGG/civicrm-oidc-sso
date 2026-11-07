@@ -5,6 +5,11 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+### Changed
+
+- Hardened the mock full-stack browser assertions against slow page commits by waiting for the CiviCRM document and expected page state with an explicit bounded timeout.
+- Added the isolated mock full-stack browser flow to the self-hosted Gitea CI, with unique Compose project names and a lightweight manual workflow for repeated stability runs.
+
 ## 0.3.0-beta.5 - 2026-11-07
 
 Public evaluation update adding real-Authentik browser verification and safer

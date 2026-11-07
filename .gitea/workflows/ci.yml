@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
@@ -44,4 +45,21 @@ jobs:
         run: sh scripts/build-release.sh /tmp/civicrm-oidc-sso.tar.gz
       - name: Verify release archive
         run: sh scripts/validate-release-archive.sh /tmp/civicrm-oidc-sso.tar.gz
+
+  full-stack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prefer reachable IPv4 package mirrors
+        run: echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4 >/dev/null
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+          github-token: ''
+      - name: Run isolated OIDC browser flow
+        env:
+          COMPOSE_PROJECT_NAME: oidc-sso-ci-${{ gitea.run_id }}
+        run: sh tests/Integration/run.sh
 
