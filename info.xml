@@ -2,7 +2,7 @@
 <extension key="oidc_sso" type="module">
   <file>oidc_sso</file>
   <name>OpenID Connect SSO</name>
-  <description>Provider-neutral OpenID Connect single sign-on and role mapping for CiviCRM.</description>
+  <description>Provider-neutral OpenID Connect single sign-on and role mapping for CiviCRM Standalone. Independent security review required before production use.</description>
   <license>AGPL-3.0-or-later</license>
   <maintainer>
     <author>civicrm-oidc-sso contributors</author>

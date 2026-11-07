@@ -2,7 +2,7 @@
 
 ## Components
 
-The extension is planned as five independently testable services:
+The extension is implemented as five independently testable services:
 
 1. **Protocol client** — discovery, Authorization Code Flow with PKCE, token
    exchange, JWKS retrieval and standards-compliant token validation.
@@ -53,6 +53,16 @@ contact profile and every contribution, activity, relationship and other record
 already attached to that contact.
 
 ## Compatibility boundary
+
+Version 1.0 supports CiviCRM Standalone only, beginning with CiviCRM 6.19.
+Drupal, WordPress, Joomla and Backdrop are not part of the supported or tested
+compatibility matrix. The Standalone account and role gateways are intentional
+platform boundaries rather than generic CMS adapters.
+
+CiviCRM's documented extension manifest does not expose a user-framework
+restriction. The project therefore states the boundary in its in-app
+description and installation documentation instead of depending on an
+undocumented runtime identifier.
 
 Production code should use documented CiviCRM APIs, hooks, routes, settings,
 cryptography services and AuthX flows. Any unavoidable dependency on an

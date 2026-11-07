@@ -16,9 +16,27 @@ pre-release project does not currently promise a response or remediation SLA.
 Supported stable release lines will be listed here before the first stable
 release.
 
+Security support applies only to CiviCRM Standalone. Reports involving Drupal,
+WordPress, Joomla or Backdrop integrations are welcome as information but are
+outside the supported 1.0 compatibility boundary.
+
+## Independent review requested
+
+The implementation is feature complete for its intended CiviCRM Standalone
+scope, but it has not yet received an independent security assessment. It must
+not be used in production until the protocol implementation, account linking,
+role ownership and deployment guidance have been independently reviewed.
+
+Qualified reviewers are invited to use the
+[public security-review scope](docs/security-review-scope.md). Public issues
+may be used to coordinate a review, funding or non-sensitive scope questions.
+Suspected or confirmed vulnerabilities, exploit details and sensitive evidence
+must be sent privately to the security address above.
+
 | Version | Security support | Production status |
 | --- | --- | --- |
-| `main` / `0.3.0-beta.4` | Best-effort beta fixes | Not approved |
+| `main` / `0.3.0-beta.6` candidate | Best-effort beta fixes | Not approved |
+| `0.3.0-beta.4` | Superseded evaluation build | Not approved |
 | `0.3.0-beta.3` | Superseded evaluation build | Not approved |
 | `0.3.0-beta.2` | Superseded evaluation build | Not approved |
 | `0.2.0-alpha.1` | Superseded evaluation build | Not approved |

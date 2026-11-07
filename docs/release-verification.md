@@ -4,6 +4,10 @@ This checklist supplements the automated unit, style and package jobs. Run it
 against an isolated CiviCRM test deployment and a dedicated OpenID Provider
 application. Never use production identities or contacts.
 
+The version 1.0 verification matrix covers CiviCRM Standalone only. A passing
+test on Drupal, WordPress, Joomla or Backdrop would not expand the supported
+scope without an explicit future compatibility decision and dedicated tests.
+
 ## Verified full-stack scenarios
 
 The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:

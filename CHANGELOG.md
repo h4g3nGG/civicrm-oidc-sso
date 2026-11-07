@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+### Changed
+
+- Define CiviCRM Standalone 6.19 or newer as the sole supported platform for
+  version 1.0; Drupal, WordPress, Joomla and Backdrop remain outside the tested
+  compatibility boundary.
+- Replace remaining planning language for the implemented login architecture
+  and update the beta support table.
+- Mark the intended Standalone feature set as complete, request an independent
+  assessment before production use and publish a bounded review scope.
+
 ## 0.3.0-beta.6 - 2026-11-07
 
 Public evaluation update completing the browser-readiness hardening and
