@@ -18,7 +18,8 @@ release.
 
 | Version | Security support | Production status |
 | --- | --- | --- |
-| `main` / `0.3.0-beta.2` | Best-effort beta fixes | Not approved |
+| `main` / `0.3.0-beta.3` | Best-effort beta fixes | Not approved |
+| `0.3.0-beta.2` | Superseded evaluation build | Not approved |
 | `0.2.0-alpha.1` | Superseded evaluation build | Not approved |
 
 ## Test and CI deployments

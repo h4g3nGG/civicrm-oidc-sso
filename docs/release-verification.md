@@ -12,6 +12,10 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
   installed and discovered as version `0.3.0-beta.2`; no extension database
   upgrade was pending, both application containers remained healthy and the
   protected login entry point redirected to the configured OpenID Provider;
+- the beta.3 candidate registered the standard
+  `civicrm/admin/setting/oidc_sso` route through `CRM_Admin_Form_Generic` and
+  exposed the extension-specific `administer oidc_sso` permission through
+  APIv4 without placing secret values on the form;
 
 - a new OIDC subject completed provider password and MFA authentication, was
   provisioned once and reached the CiviCRM home page;
