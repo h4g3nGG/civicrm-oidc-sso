@@ -28,6 +28,16 @@ entries:
       expression: |
         return {"groups": [group.name for group in request.user.all_groups()]}
 
+  - model: authentik_providers_oauth2.scopemapping
+    id: civicrm-e2e-email
+    identifiers:
+      name: CiviCRM E2E verified email claim
+    attrs:
+      scope_name: email
+      description: Verified synthetic email for the isolated CiviCRM test only
+      expression: |
+        return {"email": request.user.email, "email_verified": True}
+
   - model: authentik_providers_oauth2.oauth2provider
     id: civicrm-e2e-provider
     identifiers:
@@ -46,7 +56,7 @@ entries:
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
       property_mappings:
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, openid]]
-        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, email]]
+        - !KeyOf civicrm-e2e-email
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, profile]]
         - !KeyOf civicrm-e2e-groups
 
