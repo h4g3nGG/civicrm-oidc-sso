@@ -12,7 +12,7 @@ body:
     id: version
     attributes:
       label: Extension version or commit
-      placeholder: 0.3.0-beta.2 or full commit SHA
+      placeholder: 0.3.0-beta.3 or full commit SHA
     validations:
       required: true
   - type: input

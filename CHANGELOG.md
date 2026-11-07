@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+## 0.3.0-beta.3 - 2026-11-07
+
+Public evaluation update adding standard administration for non-secret OIDC
+settings. This release is not approved for production use and has not
+completed an independent security review.
+
 ### Added
 
 - Add the documented CiviCRM `setting-admin@1` mixin so authorized

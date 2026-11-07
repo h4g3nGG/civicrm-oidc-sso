@@ -1,9 +1,8 @@
 # Internal pre-release security review
 
-This document records the maintainer's internal review through commit
-`2673dee` and release `0.3.0-beta.2` on 2026-11-07. It is evidence for release
-preparation, not an independent security assessment and not production
-approval.
+This document records the maintainer's internal review through release
+`0.3.0-beta.3` on 2026-11-07. It is evidence for release preparation, not an
+independent security assessment and not production approval.
 
 ## Scope
 
@@ -35,6 +34,11 @@ secret handling, audit integrity, packaging and public-repository hygiene.
 GitHub Actions run `42368536079` passed the PHP 8.1, 8.2, 8.3, 8.4 and 8.5
 jobs plus the package job. A fresh CI run is required for every subsequent
 release candidate.
+
+The beta.3 candidate additionally exercised CiviCRM's bundled
+`setting-admin@1.1.1` mixin on CiviCRM 6.19.5. The generated generic settings
+route and extension-specific permission were present, no database upgrade was
+pending and the audit chain remained valid.
 
 ## Manual findings
 
