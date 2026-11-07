@@ -21,6 +21,8 @@ All notable changes to this project are documented in this file. Versions use
 - Keep the audit log's local-user reference immutable when the corresponding
   CiviCRM account is deleted, so account lifecycle cleanup cannot invalidate
   the HMAC chain.
+- End failed login starts and callbacks on the local login page instead of
+  allowing an existing provider session to restart them in a redirect loop.
 
 ## 0.2.0-alpha.1 - 2026-11-06
 

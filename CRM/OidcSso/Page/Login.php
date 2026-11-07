@@ -19,7 +19,11 @@ final class CRM_OidcSso_Page_Login extends CRM_Core_Page
             Civi::log()->error('OpenID Connect login could not be started: {message}', [
                 'message' => $exception->getMessage(),
             ]);
-            CRM_Core_Error::statusBounce(ts('OpenID Connect login is currently unavailable.'));
+            CRM_Core_Error::statusBounce(
+                ts('OpenID Connect login is currently unavailable.'),
+                CRM_Utils_System::url('civicrm/login', '', true, null, false),
+            );
+            return;
         }
     }
 

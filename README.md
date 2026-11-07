@@ -201,6 +201,10 @@ web server or identity-provider application launcher to send `/` to
 protected break-glass administrator. Do not redirect the local login route
 back to OIDC.
 
+Failed OIDC starts and callbacks return to `/civicrm/login` with an error
+notice. Keeping that route outside any automatic OIDC redirect prevents a
+provider session from repeatedly restarting a failed callback.
+
 `/civicrm/logout` ends the local CiviCRM session. It does not terminate the
 OpenID Provider session, so opening the application again can immediately
 establish a fresh CiviCRM session through SSO. Deployments which require global

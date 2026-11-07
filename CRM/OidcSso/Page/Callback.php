@@ -49,7 +49,10 @@ final class CRM_OidcSso_Page_Callback extends CRM_Core_Page
                     'exception_class' => $auditException::class,
                 ]);
             }
-            CRM_Core_Error::statusBounce(ts('OpenID Connect login failed. Please start the login again.'));
+            CRM_Core_Error::statusBounce(
+                ts('OpenID Connect login failed. Please start the login again.'),
+                CRM_Utils_System::url('civicrm/login', '', true, null, false),
+            );
             return;
         }
         CRM_Utils_System::redirect($redirect);
