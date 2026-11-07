@@ -28,8 +28,44 @@ find "$stage_dir" -type d -exec chmod 0755 {} +
 find "$stage_dir" -type f -exec chmod 0644 {} +
 chmod 0755 "$stage_dir/scripts/build-release.sh"
 
+source_date_epoch=$(git -C "$root_dir" show -s --format=%ct HEAD)
+php -r '
+$root = $argv[1];
+$timestamp = (int) $argv[2];
+$iterator = new RecursiveIteratorIterator(
+    new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS),
+    RecursiveIteratorIterator::CHILD_FIRST
+);
+foreach ($iterator as $entry) {
+    if (!touch($entry->getPathname(), $timestamp, $timestamp)) {
+        fwrite(STDERR, "Unable to normalize release timestamp.\n");
+        exit(1);
+    }
+}
+if (!touch($root, $timestamp, $timestamp)) {
+    fwrite(STDERR, "Unable to normalize release root timestamp.\n");
+    exit(1);
+}
+' "$stage_dir" "$source_date_epoch"
+
 mkdir -p "$(dirname -- "$output")"
-COPYFILE_DISABLE=1 tar --no-xattrs -C "$stage_root" -czf "$output" oidc_sso
+archive_list="$stage_root/archive.list"
+(cd "$stage_root" && find oidc_sso -print | LC_ALL=C sort > "$archive_list")
+uncompressed="$stage_root/archive.tar"
+
+case "$(tar --version 2>&1 | head -n 1)" in
+  *bsdtar*)
+    COPYFILE_DISABLE=1 tar --no-xattrs --no-recursion --format=ustar \
+      --uid 0 --gid 0 --uname root --gname root \
+      -C "$stage_root" -cf "$uncompressed" -T "$archive_list"
+    ;;
+  *)
+    tar --no-recursion --format=ustar --owner=0 --group=0 --numeric-owner \
+      -C "$stage_root" -cf "$uncompressed" -T "$archive_list"
+    ;;
+esac
+
+gzip -n -9 -c "$uncompressed" > "$output"
 sh "$root_dir/scripts/validate-release-archive.sh" "$output"
 
 printf '%s\n' "$output"

@@ -37,6 +37,10 @@ jobs:
           tools: composer:v2
       - name: Build release archive
         run: sh scripts/build-release.sh /tmp/civicrm-oidc-sso.tar.gz
+      - name: Verify reproducible release archive
+        run: |
+          sh scripts/build-release.sh /tmp/civicrm-oidc-sso-second.tar.gz
+          cmp /tmp/civicrm-oidc-sso.tar.gz /tmp/civicrm-oidc-sso-second.tar.gz
       - name: Verify release archive
         run: sh scripts/validate-release-archive.sh /tmp/civicrm-oidc-sso.tar.gz
 

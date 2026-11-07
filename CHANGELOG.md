@@ -12,6 +12,12 @@ This candidate freezes the intended 1.0 functionality for independent review
 and non-production evaluation. It is not approved for production use until the
 independent security-review gate has been completed.
 
+### Fixed
+
+- Make release archives byte-for-byte reproducible by normalizing entry order,
+  timestamps, ownership and gzip metadata; CI now compares two independent
+  package builds.
+
 ### Changed
 
 - Define CiviCRM Standalone 6.19 or newer as the sole supported platform for
