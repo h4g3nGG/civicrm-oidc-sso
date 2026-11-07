@@ -46,6 +46,18 @@ final class ExtensionManifestTest extends TestCase
         );
     }
 
+    public function testSettingsStylesAreScopedAndInheritTheActiveTheme(): void
+    {
+        $entrypoint = (string) file_get_contents(__DIR__ . '/../../oidc_sso.php');
+        $stylesheet = (string) file_get_contents(__DIR__ . '/../../css/settings.css');
+        self::assertStringContainsString("currentPath() !== 'civicrm/admin/setting/oidc_sso'", $entrypoint);
+        self::assertStringContainsString("addStyleFile('oidc_sso', 'css/settings.css')", $entrypoint);
+        self::assertStringContainsString('.crm-setting-block-oidc_sso', $stylesheet);
+        self::assertStringContainsString('background: transparent !important', $stylesheet);
+        self::assertStringContainsString('color: inherit !important', $stylesheet);
+        self::assertStringNotContainsString('prefers-color-scheme', $stylesheet);
+    }
+
     public function testAuditUpgradeSchemasAreFrozenSnapshots(): void
     {
         foreach (['OidcSsoAuditEvent', 'OidcSsoAuditHead'] as $entity) {

@@ -9,6 +9,9 @@ All notable changes to this project are documented in this file. Versions use
 
 - Normalize role mappings stored as arrays by the Settings API to canonical
   JSON before rendering the standard text-based administration form.
+- Make the OIDC settings form inherit its active CiviCRM theme so labels, help
+  text and fields retain sufficient contrast in light and dark themes without
+  imposing a separate color mode on CiviCRM's default theme.
 
 ## 0.3.0-beta.3 - 2026-11-07
 
