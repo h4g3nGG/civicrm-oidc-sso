@@ -32,3 +32,14 @@ function oidc_sso_civicrm_xmlMenu(array &$files): void
 {
     $files[] = __DIR__ . '/xml/Menu/oidc_sso.xml';
 }
+
+/** Implements hook_civicrm_buildForm(). */
+function oidc_sso_civicrm_buildForm(string $formName, &$form): void
+{
+    if ($formName !== 'CRM_Admin_Form_Generic'
+        || CRM_Utils_System::currentPath() !== 'civicrm/admin/setting/oidc_sso'
+    ) {
+        return;
+    }
+    Civi::resources()->addStyleFile('oidc_sso', 'css/settings.css');
+}

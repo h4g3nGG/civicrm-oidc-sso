@@ -23,6 +23,21 @@ final class RoleMappingSettingTest extends TestCase
         );
     }
 
+    public function testCanonicalizesApiArrayForTextFormWithoutChangingMapping(): void
+    {
+        self::assertSame(
+            '{"group.staff":[3],"group.admin":[2]}',
+            RoleMappingSetting::canonicalJson(['group.staff' => [3], 'group.admin' => [2]]),
+        );
+        self::assertSame('{}', RoleMappingSetting::canonicalJson([]));
+    }
+
+    public function testRejectsJsonListEvenWhenEmpty(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        RoleMappingSetting::decode('[]');
+    }
+
     public function testRejectsInvalidRoleIds(): void
     {
         $this->expectException(UnexpectedValueException::class);

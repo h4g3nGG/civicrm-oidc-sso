@@ -1,0 +1,26 @@
+.crm-setting-block-oidc_sso {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+.crm-setting-block-oidc_sso .crm-setting-section,
+.crm-setting-block-oidc_sso .form-layout-compressed,
+.crm-setting-block-oidc_sso .form-layout-compressed tbody,
+.crm-setting-block-oidc_sso .form-layout-compressed tr,
+.crm-setting-block-oidc_sso .form-layout-compressed td,
+.crm-setting-block-oidc_sso label {
+  background: transparent;
+  color: inherit !important;
+}
+
+.crm-setting-block-oidc_sso .description {
+  color: inherit !important;
+  opacity: 0.78;
+}
+
+.crm-setting-block-oidc_sso input[type="text"],
+.crm-setting-block-oidc_sso textarea,
+.crm-setting-block-oidc_sso select {
+  background-color: inherit;
+  color: inherit;
+}
