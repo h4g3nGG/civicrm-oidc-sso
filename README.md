@@ -352,6 +352,11 @@ projects are affiliated.
 
 ## Development
 
+The [internal pre-release security review](docs/pre-release-security-review.md)
+records the current automated evidence, manual findings and unresolved release
+gates. It does not replace the independent security review required before a
+stable production release.
+
 The initial code targets maintained CiviCRM 6.x releases and PHP versions
 supported by those releases. The repository will use Composer for development
 tooling and reproducible third-party dependencies.

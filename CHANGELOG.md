@@ -15,6 +15,8 @@ All notable changes to this project are documented in this file. Versions use
 - Complete Extension Directory metadata and CI manifest validation.
 - A documented full-stack release-verification matrix covering JIT
   provisioning, role changes, existing-user migration, denial and cleanup.
+- An internal pre-release security-review record with automated evidence,
+  manual findings and explicit remaining release gates.
 
 ### Fixed
 
