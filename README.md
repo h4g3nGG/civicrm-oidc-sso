@@ -5,8 +5,9 @@ single sign-on using OpenID Connect (OIDC). The project aims to support
 just-in-time user provisioning and deterministic mapping of trusted OIDC group
 claims to existing CiviCRM roles without modifying CiviCRM core.
 
-> **Development status:** `0.3.0-dev` follows the `0.2.0-alpha.1` evaluation
-> release. It is not approved for production use. See the
+> **Development status:** `0.3.0-beta.1` is a public evaluation release. It is
+> not approved for production use and has not completed an independent
+> security review. See the
 > [changelog](CHANGELOG.md) for release scope and known limitations.
 
 ## Origin and support
@@ -65,7 +66,7 @@ See [Architecture](docs/architecture.md) and [Security model](docs/security.md).
 
 ## Implemented security foundation
 
-The current development version includes tested building blocks for:
+The current beta includes tested building blocks for:
 
 - validating provider discovery metadata and HTTPS endpoints;
 - retrieving discovery documents, JWKS and token responses through a bounded,
@@ -101,8 +102,8 @@ address. They must be linked explicitly before cutover; see
 ## Installation
 
 The extension currently targets CiviCRM 6.19 or newer on Standalone and PHP
-8.1 through 8.5. It is still an alpha release; install and validate it in a
-separate test system before considering a production rollout.
+8.1 through 8.5. It is a beta evaluation release; install and validate it only
+in a separate test system. It is not approved for a production rollout.
 
 1. Build or download a release archive whose top-level directory is
    `oidc_sso/`.
@@ -181,7 +182,7 @@ https://crm.example.org/civicrm/oidc/callback
 ```
 
 Configure these domain settings through CiviCRM's Settings API. The settings
-form is not complete in the current alpha release, so do not edit extension
+form is not complete in the current beta release, so do not edit extension
 tables directly.
 
 | Setting | Example | Purpose |

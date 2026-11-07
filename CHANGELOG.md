@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+## 0.3.0-beta.1 - 2026-11-07
+
+Public beta for isolated evaluation environments. This release is not
+approved for production use and has not completed an independent security
+review.
+
 ### Added
 
 - Data-minimized audit events for authentication, identity provisioning,
@@ -29,6 +35,16 @@ All notable changes to this project are documented in this file. Versions use
   the HMAC chain.
 - End failed login starts and callbacks on the local login page instead of
   allowing an existing provider session to restart them in a redirect loop.
+
+### Known limitations
+
+- No independent security review or production approval yet.
+- No finished web administration or migration interface.
+- No automated full-stack browser suite; the documented isolated full-stack
+  verification remains manual.
+- No OpenID Provider-wide logout; CiviCRM logout ends only the local session.
+- Configuration and existing-user migration require an experienced
+  administrator.
 
 ## 0.2.0-alpha.1 - 2026-11-06
 
