@@ -5,6 +5,17 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+## 0.3.0-beta.2 - 2026-11-07
+
+Packaging correction for the public beta. Use this release instead of
+`0.3.0-beta.1`.
+
+### Fixed
+
+- Suppress macOS extended attributes while building release archives and
+  reject AppleDouble, Finder metadata, path traversal, out-of-tree paths and
+  symbolic links during package validation.
+
 ## 0.3.0-beta.1 - 2026-11-07
 
 Public beta for isolated evaluation environments. This release is not

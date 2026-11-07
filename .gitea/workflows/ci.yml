@@ -42,9 +42,6 @@ jobs:
           github-token: ''
       - name: Build release archive
         run: sh scripts/build-release.sh /tmp/civicrm-oidc-sso.tar.gz
-      - name: Verify release permissions and entrypoint
-        run: |
-          mode=$(tar -tvzf /tmp/civicrm-oidc-sso.tar.gz oidc_sso/ | awk 'NR == 1 {print $1}')
-          test "$mode" = "drwxr-xr-x"
-          tar -tzf /tmp/civicrm-oidc-sso.tar.gz | grep -qx 'oidc_sso/oidc_sso.php'
+      - name: Verify release archive
+        run: sh scripts/validate-release-archive.sh /tmp/civicrm-oidc-sso.tar.gz
 

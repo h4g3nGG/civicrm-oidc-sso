@@ -29,6 +29,7 @@ find "$stage_dir" -type f -exec chmod 0644 {} +
 chmod 0755 "$stage_dir/scripts/build-release.sh"
 
 mkdir -p "$(dirname -- "$output")"
-tar -C "$stage_root" -czf "$output" oidc_sso
+COPYFILE_DISABLE=1 tar --no-xattrs -C "$stage_root" -czf "$output" oidc_sso
+sh "$root_dir/scripts/validate-release-archive.sh" "$output"
 
 printf '%s\n' "$output"
