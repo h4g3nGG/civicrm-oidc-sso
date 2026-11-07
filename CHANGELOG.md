@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+### Added
+
+- Add the documented CiviCRM `setting-admin@1` mixin so authorized
+  administrators can manage non-secret OIDC settings through the standard
+  web form.
+
 ### Documentation
 
 - Align the migration, CI and verification documentation with the published
