@@ -16,6 +16,11 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
   subject;
 - the automated postconditions found no duplicate user or contact and
   verified the final HMAC audit chain;
+- merged `main` CI run `42387362860` repeated the complete matrix and passed a
+  separate real-Authentik 2026.8.5 browser flow covering password login,
+  provider-suffix discovery, Authorization Code with PKCE S256, signed-token
+  validation, a verified test-owned email claim, group mapping, JIT
+  provisioning, role assignment and final audit verification;
 
 - the exact published `0.3.0-beta.2` archive was checksum-verified, validated,
   installed and discovered as version `0.3.0-beta.2`; no extension database

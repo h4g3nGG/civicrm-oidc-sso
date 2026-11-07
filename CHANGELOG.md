@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file. Versions use
 
 ## Unreleased
 
+## 0.3.0-beta.5 - 2026-11-07
+
+Public evaluation update adding real-Authentik browser verification and safer
+callback diagnostics. This release is not approved for production use and has
+not completed an independent security review.
+
 ### Added
 
 - Add an isolated Docker and Playwright full-stack test for signed OIDC login,
