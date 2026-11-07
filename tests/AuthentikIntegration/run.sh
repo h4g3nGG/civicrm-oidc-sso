@@ -44,6 +44,23 @@ if ! $compose run --rm browser sh -lc \
   $compose logs --no-color app 2>/dev/null \
     | grep "OpenID Connect login could not be started" \
     | tail -n 3 >&2 || true
+  printf '%s\n' 'Controlled callback audit reason:' >&2
+  $compose exec -T -u www-data app cv ev '
+    $json = CRM_Core_DAO::singleValueQuery(
+      "SELECT details_json FROM civicrm_oidc_sso_audit_event"
+      . " WHERE event_type = %1 AND outcome = %2"
+      . " ORDER BY id DESC LIMIT 1",
+      [1 => ["authentication", "String"], 2 => ["rejected", "String"]]
+    );
+    $details = is_string($json) ? json_decode($json, true) : null;
+    $reason = is_array($details) ? ($details["reason_code"] ?? null) : null;
+    $allowed = [
+      "protocol_validation_failed", "invalid_request",
+      "runtime_failure", "unexpected_failure",
+    ];
+    echo is_string($reason) && in_array($reason, $allowed, true)
+      ? $reason : "unavailable", PHP_EOL;
+  ' --cwd=/var/www/html >&2 || true
   exit 1
 fi
 sh tests/AuthentikIntegration/verify-civicrm.sh
