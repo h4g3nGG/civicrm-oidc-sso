@@ -25,17 +25,20 @@ The following scenarios were exercised on 2026-11-07 against CiviCRM 6.19.5:
   created;
 - after that provider user was disabled and all provider sessions were
   revoked, a fresh login was rejected before CiviCRM was reached;
-- the audit chain remained valid after both denial scenarios (18 events, head
-  `26faf7bb55bc3348d54c2ece608ce627583a56e9202b3e8225d819d93cc6118b`);
+- local logout ended the CiviCRM session but deliberately left the provider
+  session intact; revisiting the protected application therefore completed a
+  fresh OIDC login without another password or MFA prompt, confirming the
+  documented absence of provider-wide single logout;
+- the audit chain remained valid after the denial and logout scenarios (21
+  events, head
+  `e5c69f7944545d58a68864b362779386021fa63f3d86a52f65642b44f76bf0ca`);
 - all temporary provider users, local users, contacts, identity links, managed
   roles and protected migration manifests were removed after verification.
 
 ## Required checks before a beta release
 
-- Test local logout followed by login, provider-session expiry and the
-  documented absence of provider-wide single logout.
-- Exercise an administrator-reviewed migration for a pilot account while
-  retaining the local break-glass administrator.
+- Confirm that an expired provider session requires fresh provider
+  authentication before a new CiviCRM session can be created.
 - Verify the audit chain before and after every lifecycle test.
 - Obtain an independent security review of protocol validation, account
   linking, role ownership, callback handling and deployment documentation.
